@@ -1,0 +1,7 @@
+# How to run
+**CONSOLE COMMANDS IN PROJECT ROOT FOLDER:**
+ - `nvm install 20`
+ - `nvm use 20`
+ - `npm i -g yarn`
+ - `yarn`
+ - `vite`
