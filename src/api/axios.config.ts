@@ -9,7 +9,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     config => {
-        config.headers["Authorization"] = "Bearer " + localStorage.getItem(tokenKeyName);
+        // config.headers["Authorization"] = "Bearer " + localStorage.getItem(tokenKeyName);
+        // config.headers["Access-Control-Allow-Origin"] = "*";
+        // config.headers["Access-Control-Allow-Headers"] = "X-Requested-Withs";
         return config;
     },
     error => {
