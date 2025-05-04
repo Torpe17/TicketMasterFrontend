@@ -5,16 +5,20 @@ import {
     Group,
     Button,
     Anchor, Divider,
-    Text
+    Text,
+    Alert
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
 import { DateInput } from '@mantine/dates';
 import api from "../api/api.ts";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { IconAlertCircle } from '@tabler/icons-react';
+import { Axios, AxiosError } from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -54,13 +58,30 @@ const Register = () => {
             formatDateOnly(values.birthDate)
           );
         } catch (error) {
-          console.error('Registration failed:', error);
+          if(error instanceof AxiosError){
+            const errorMessage = error.response?.data;
+            setError('A regisztráció sikertelen. Kérjük, próbáld újra. ' + errorMessage);
+          }
         }
       };
 
       return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
+          {/* Error Alert */}
+        {error && (
+          <Alert 
+            icon={<IconAlertCircle size="1rem" />}
+            title="Hiba!"
+            color="red"
+            mb="md"
+            withCloseButton
+            onClose={() => setError(null)}
+          >
+            {error}
+          </Alert>
+        )}
+
           <TextInput
                 required
                 label="Teljes név"
