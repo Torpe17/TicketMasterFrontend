@@ -4,7 +4,8 @@ import {
     PasswordInput,
     Group,
     Button,
-    Anchor, Divider
+    Anchor, Divider,
+    Text
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
@@ -55,19 +56,24 @@ const Login = () => {
                     />
                 </Stack>
 
-                <Group justify="space-between" mt="xl">
+                <Group justify="right" mt="xl">
                     <Anchor component="button" type="button" c="dimmed" onClick={() => navigate('/forgot')}
                             size="xs">
                         Elfelejtetted a jelszavad?
                     </Anchor>
-                    <Button type="submit" radius="xl">
+                </Group>
+                <Group justify="center" mt="xl">
+                <Button type="submit" radius="xl" fullWidth>
                         Bejelentkezés
                     </Button>
-                </Group>
+                    </Group>
                 <Divider my="lg"/>
-                <Button onClick={() => navigate('/register')} radius="xl">
-                        Regisztráció
-                </Button>
+                <Group justify="center" gap="xs">
+                <Text>Még nincs fiókod?</Text>
+                <Anchor component="button" type="button" onClick={() => navigate('/register')}>
+                    Regisztráció
+                </Anchor>
+                </Group>
             </form>
         </div>
     </AuthContainer>

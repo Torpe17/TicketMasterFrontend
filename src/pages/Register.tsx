@@ -10,11 +10,13 @@ import {
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
-import { DateInput } from '@mantine/dates';
+import { DateInput} from '@mantine/dates';
 import api from "../api/api.ts";
 import { FormEvent, useState } from "react";
 import { IconAlertCircle } from '@tabler/icons-react';
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
+import AuthContainer from "../components/AuthContainer.tsx";
+import 'dayjs/locale/hu'; // Import Hungarian locale if needed
 
 const Register = () => {
   const navigate = useNavigate();
@@ -64,11 +66,9 @@ const Register = () => {
           }
         }
       };
-
-      return (
+      return (<AuthContainer>
         <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
-          {/* Error Alert */}
         {error && (
           <Alert 
             icon={<IconAlertCircle size="1rem" />}
@@ -112,13 +112,14 @@ const Register = () => {
           label="Születésnap"
           placeholder="Születésnapod"
           valueFormat="YYYY-MM-DD"
-          key={form.key('birthDate')}
+          locale="hu"
           radius="md"
+          firstDayOfWeek={1}
           {...form.getInputProps('birthDate')}
         />
         </Stack>
-        <Group justify="space-between" mt="xl">
-        <Button type="submit" radius="xl">
+        <Group justify="center" mt="xl">
+        <Button type="submit" radius="xl" fullWidth>
                 Regisztráció
         </Button>
         </Group>
@@ -130,6 +131,7 @@ const Register = () => {
       </Anchor>
   </Group>
     </form>
+    </AuthContainer>
         );
 }
 
