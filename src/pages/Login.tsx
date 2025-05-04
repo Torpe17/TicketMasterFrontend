@@ -65,6 +65,9 @@ const Login = () => {
                     </Button>
                 </Group>
                 <Divider my="lg"/>
+                <Button onClick={() => navigate('/register')} radius="xl">
+                        Regisztráció
+                </Button>
             </form>
         </div>
     </AuthContainer>
