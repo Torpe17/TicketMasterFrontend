@@ -14,8 +14,17 @@ const useAuth = () => {
     const isLoggedIn = !!token;
 
     const login = async (email: string, password: string) => {
-        const token = await api.Auth.login(email, password);
-        loginKata(token.data.token);
+        try {
+            const response = await api.Auth.login(email, password);
+            loginKata(response.data.token);
+            return { success: true };
+        } catch (error: any) {
+            // Extract error message from response
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data?.title ||
+                               'Hibás email cím vagy jelszó';
+            return { success: false, error: errorMessage };
+        }
     }
 
     const logout = () => {

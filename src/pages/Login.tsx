@@ -5,16 +5,20 @@ import {
     Group,
     Button,
     Anchor, Divider,
-    Text
+    Text,
+    Alert
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
 import AuthContainer from "../components/AuthContainer.tsx";
 import useAuth from "../hooks/useAuth.tsx";
+import { useState } from "react";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 const Login = () => {
     const {login} = useAuth();
     const navigate = useNavigate();
+     const [error, setError] = useState<string | null>(null);
 
     const form = useForm({
         initialValues: {
@@ -29,14 +33,31 @@ const Login = () => {
     });
 
 
-    const submit = () => {
-        login(form.values.email, form.values.password)
+    const submit = async () => {
+        setError(null); // Clear previous errors
+        const result = await login(form.values.email, form.values.password);
+        
+        if (!result.success) {
+            setError(result.error || 'Hibás email cím vagy jelszó');
+        }
     }
 
     return <AuthContainer>
         <div>
             <form onSubmit={form.onSubmit(submit)}>
                 <Stack>
+                {error && (
+          <Alert 
+            icon={<IconAlertCircle size="1rem" />}
+            title="Hiba!"
+            color="red"
+            mb="md"
+            withCloseButton
+            onClose={() => setError(null)}
+          >
+            {error}
+          </Alert>
+        )}
                     <TextInput
                         required
                         label="E-mail cím"
