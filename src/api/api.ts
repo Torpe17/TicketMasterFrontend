@@ -6,6 +6,18 @@ const Auth = {}
 
 const Films = {
     getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),
+    getFilm: (id: string) => axiosInstance.get<IFilm>(`/api/film/${id}`),
+    createFilm : (param: ICreateFilm) => axiosInstance.post<IFilm>(`/api/film`, param),
+    updateFilm: (id: string, param2: {
+        title: string;
+        director: string;
+        genre: string;
+        length: number;
+        description: string;
+        ageRating: number | null;
+        setAgeRating: boolean;
+    }) => axiosInstance.put<IFilm>(`/api/film/${id}`, param2),
+    deleteFilm: (id: string) => axiosInstance.delete<void>(`/api/film/${id}`)
 }
 
 const Screening = {
