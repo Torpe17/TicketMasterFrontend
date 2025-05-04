@@ -6,6 +6,7 @@ import { AuthContext } from "./context/AuthContext";
 import Routing from "./routing/Routing.tsx";
 import {useState} from "react";
 import {emailKeyName, tokenKeyName, roleKeyName} from "./constants/constants.ts";
+import '@mantine/dates/styles.css';
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem(tokenKeyName));
