@@ -26,7 +26,8 @@ const Screening = {
     getScreenings: (filmId: number) => axiosInstance.get<IScreening[]>(`/api/film/${filmId}/screenings`),
     getScreening: (id: string) => axiosInstance.get<IScreening>(`/api/screenings/${id}`),
     createScreening : (param: ICreateScreening) => axiosInstance.post<IScreening>(`/api/screenings`, param),
-    updateScreening: (id: string, param2: ICreateScreening) => axiosInstance.put<IScreening>(`/api/film/${id}`, param2),
+    updateScreening: (id: string, param2: ICreateScreening) => axiosInstance.put<void>(`/api/screenings/${id}`, param2),
+    deleteScreening: (id: string) => axiosInstance.delete<void>(`/api/screenings/${id}`)
 }
 
 const Tickets = {}

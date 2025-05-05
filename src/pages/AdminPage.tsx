@@ -83,7 +83,16 @@ const AdminPage = () => {
                     rightSection={<IconTrash size={14} />}
                     variant="light"
                     color="red"
-                    onClick={() => navigate(`screening/${screening.id}`)}
+                    onClick={async () => {
+                        if (!selectedFilm) return;
+                    
+                        try {
+                          await api.Screening.deleteScreening(String(screening.id));
+                          setScreenings(prev => prev.filter(s => s.id !== screening.id));
+                        } catch (error) {
+                          console.error('Failed to delete screening:', error);
+                        }
+                      }}
                 >
                     Törlés
                 </Button>
