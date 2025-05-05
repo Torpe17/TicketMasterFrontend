@@ -7,6 +7,7 @@ import { IRoom } from "../interfaces/IRoom.ts";
 import { IFilm } from "../interfaces/IFilm.ts";
 import { IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
 import { DateTimePicker } from '@mantine/dates';
+
 import '@mantine/dates/styles.css'
 
 interface ICreateUpdateScreening {
@@ -26,6 +27,10 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
           },
           validate: {
             date: (value) => {
+                console.log(value);
+                console.log(value.getTime());
+                
+                
                 if (!(value instanceof Date) || isNaN(value.getTime())) {
                   return "Érvénytelen dátum";
                 }
@@ -71,7 +76,12 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                 onSubmit={form.onSubmit(async (values) => {
                     try {
                         if (isCreate) {
-                            // todo
+                            await api.Screening.createScreening({
+                                filmId: Number(values.filmId),
+                                roomId: Number(values.roomId),
+                                date: String(values.date),
+                                defaultTicketPrice: Number(values.defaultTicketPrice)
+                            });
                         } else {
                             // todo
                         }
@@ -152,8 +162,6 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                             }
                         })}
                     />
-                    
-  <DateTimePicker label="Pick date and time" placeholder="Pick date and time" />
                     <DateTimePicker
                         withAsterisk
                         label="Vetítés dátuma"
@@ -161,7 +169,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                         valueFormat="YYYY-MM-DD HH:mm"
                         key={form.key("date")}
                         {...form.getInputProps("date")}
-                        />
+                    />
                     <NumberInput
                         withAsterisk
                         label="Alap jegyár"

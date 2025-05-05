@@ -1,3 +1,4 @@
+import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
 import { IFilm } from "../interfaces/IFilm.ts";
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IScreening } from "../interfaces/IScreening.ts";
@@ -24,6 +25,7 @@ const Films = {
 const Screening = {
     getScreenings: (filmId: number) => axiosInstance.get<IScreening[]>(`/api/film/${filmId}/screenings`),
     getScreening: (id: string) => axiosInstance.get<IScreening>(`/api/screenings/${id}`),
+    createScreening : (param: ICreateScreening) => axiosInstance.post<IFilm>(`/api/screenings`, param),
 }
 
 const Tickets = {}
