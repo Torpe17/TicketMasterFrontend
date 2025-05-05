@@ -1,4 +1,5 @@
 import { IFilm } from "../interfaces/IFilm.ts";
+import { IRoom } from "../interfaces/IRoom.ts";
 import { IScreening } from "../interfaces/IScreening.ts";
 import axiosInstance from "./axios.config.ts";
 
@@ -22,10 +23,14 @@ const Films = {
 
 const Screening = {
     getScreenings: (filmId: number) => axiosInstance.get<IScreening[]>(`/api/film/${filmId}/screenings`),
+    getScreening: (id: string) => axiosInstance.get<IScreening>(`/api/screenings/${id}`),
 }
 
 const Tickets = {}
+const Room = {
+    getRooms: () => axiosInstance.get<IRoom[]>(`/api/rooms`),
+}
 
-const api = {Films, Auth, Screening, Tickets};
+const api = {Films, Auth, Screening, Tickets, Room};
 
 export default api;

@@ -3,6 +3,7 @@ import ForgotPassword from "../pages/ForgotPassword.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
 import AdminPage from "../pages/AdminPage.tsx";
 import CreateUpdateFilms from "../pages/CreateUpdateFilm.tsx";
+import CreateUpdateScreenings from "../pages/CreateUpdateScreening.tsx";
 export const routes = [
     {
         path: "login",
@@ -32,6 +33,16 @@ export const routes = [
     {
         path: "adminpage/film/:id",
         component: <CreateUpdateFilms isCreate={false}/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/screening/create",
+        component: <CreateUpdateScreenings isCreate={true}/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/film/:filmId/screening/:id",
+        component: <CreateUpdateScreenings isCreate={false}/>,
         isPrivate: true
     },
 ]

@@ -8,6 +8,7 @@ import api from '../api/api';
 import { tokenKeyName } from '../constants/constants';
 
 const AdminPage = () => {
+    localStorage.setItem(tokenKeyName, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4gYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhZG1pbi5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI4ZDNkNTQ2Ni1iODJlLTQ0NTctYmE3Yy1iMzU2YWY0ZWQ2NzQiLCJhdXRoX3RpbWUiOiIwNS8wNC8yMDI1IDIwOjM1OjA3Iiwicm9sZUlkcyI6WyIxIiwiMiIsIjMiXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIkFkbWluIiwiQ2FzaGllciIsIkN1c3RvbWVyIl0sImV4cCI6MTc0ODk3NTcwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI5MyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUxNzMifQ.Id1D9VqdtLFUyuu2KDvl_d60Rc-3rllkK97EloaOd1E");
 
     const navigate = useNavigate();
     const [films, setFilms] = useState<IFilm[]>([]);
@@ -75,7 +76,7 @@ const AdminPage = () => {
                     mr={10}
                     variant="light"
                     color="yellow"
-                    onClick={() => navigate(`screening/${screening.id}`)}
+                    onClick={() => selectedFilm && navigate(`film/${selectedFilm?.id}/screening/${screening.id}`)}
                 >
                     Módosítás
                 </Button>
@@ -156,7 +157,11 @@ const AdminPage = () => {
                 </Combobox.Dropdown>
             </Combobox>
 
-            <Button rightSection={<IconPlus size={14} />} mt={25} variant="light" color="lime">
+            <Button 
+                onClick={() => selectedFilm && navigate(`film/${selectedFilm?.id}/screening/create`)}
+                disabled={!selectedFilm}
+                rightSection={<IconPlus size={14} />} 
+                mt={25} variant="light" color="lime">
                 Új vetítés
             </Button>
 
