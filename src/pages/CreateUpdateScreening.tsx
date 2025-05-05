@@ -6,9 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IFilm } from "../interfaces/IFilm.ts";
 import { IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
-import { DateTimePicker } from '@mantine/dates';
+import { DateTimePicker, PickerInputBase } from '@mantine/dates';
+import '@mantine/dates/styles.css';
 
-import '@mantine/dates/styles.css'
 
 interface ICreateUpdateScreening {
     isCreate: boolean;
@@ -24,23 +24,16 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
             roomId: 0,
             date: new Date(),
             defaultTicketPrice: 0,
-          },
-          validate: {
+        },
+        validate: {
             date: (value) => {
-                console.log(value);
-                console.log(value.getTime());
-                
-                
-                if (!(value instanceof Date) || isNaN(value.getTime())) {
-                  return "Érvénytelen dátum";
-                }
-                if (value.getTime() < Date.now()) {
-                  return "Nem lehet múlt idő";
-                }
+                const date = new Date(value).getTime();
+                if (isNaN(date)) return "Érvénytelen dátum";
+                if (date < Date.now()) return "Nem lehet múlt idő";
                 return null;
-              },
+            },
             defaultTicketPrice: (value) => value < 0 ? "Nem lehet negatív" : null,
-          },
+        },
     });
 
     const [rooms, setRooms] = useState<IRoom[]>([]);
@@ -77,13 +70,18 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                     try {
                         if (isCreate) {
                             await api.Screening.createScreening({
-                                filmId: Number(values.filmId),
+                                filmId: Number(film?.id),
                                 roomId: Number(values.roomId),
-                                date: String(values.date),
+                                date: String(values.date).replace(" ","T"),
                                 defaultTicketPrice: Number(values.defaultTicketPrice)
                             });
                         } else {
-                            // todo
+                            await api.Screening.updateScreening(String(id), {
+                                filmId: Number(film?.id),
+                                roomId: Number(values.roomId),
+                                date: String(values.date).replace(" ","T"),
+                                defaultTicketPrice: Number(values.defaultTicketPrice)
+                            })
                         }
                         navigate(-1);
                     } catch (error) {
@@ -155,12 +153,10 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                         label="Terem"
                         key={form.key('roomId')}
                         {...form.getInputProps('roomId')}
-                        data={rooms.map((c) => {
-                            return {
-                                value: c.roomId.toString(),
-                                label: c.name,
-                            }
-                        })}
+                        data={rooms.map((c) => ({
+                            value: c.roomId.toString(),
+                            label: c.name,
+                          }))}
                     />
                     <DateTimePicker
                         withAsterisk

@@ -36,7 +36,7 @@ export const routes = [
         isPrivate: true
     },
     {
-        path: "adminpage/screening/create",
+        path: "adminpage/film/:filmId/screening/create",
         component: <CreateUpdateScreenings isCreate={true}/>,
         isPrivate: true
     },
