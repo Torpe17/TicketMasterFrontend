@@ -1,33 +1,46 @@
 import {useContext, useEffect} from "react";
 import {AuthContext} from "../context/AuthContext.tsx";
-import {emailKeyName, emailTokenKey, tokenKeyName} from "../constants/constants.ts";
+import {emailKeyName, tokenKeyName, roleKeyName, emailTokenKey} from "../constants/constants.ts";
 import {jwtDecode, JwtPayload} from "jwt-decode";
+import api from "../api/api.ts";
 
 interface CustomJwtPayload extends JwtPayload {
-    [key: string]: any; // Allowing dynamic keys if necessary
+    [key: string]: any;
 }
 
+
 const useAuth = () => {
-    const { token, setToken, email, setEmail  } = useContext(AuthContext);
+    const { token, setToken, email, setEmail, roles, setRoles  } = useContext(AuthContext);
     const isLoggedIn = !!token;
 
-    const login = (email: string, password: string) => {
-        console.log({email, password});
-        const tokenFromBE = 'yourDotnetToken';
-        setToken(tokenFromBE); localStorage.setItem(tokenKeyName, tokenFromBE);
-        setEmail(email); localStorage.setItem(emailKeyName, email);
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await api.Auth.login(email, password);
+            loginKata(response.data.token);
+            return { success: true };
+        } catch (error: any) {
+            // Extract error message from response
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data?.title ||
+                               'Hibás email cím vagy jelszó';
+            return { success: false, error: errorMessage };
+        }
     }
 
     const logout = () => {
         localStorage.clear();
         setToken(null);
+        setEmail(null);
+        setRoles(null);
     }
 
     const loginKata = (token: string) => {
         setToken(token); localStorage.setItem(tokenKeyName, token);
         const decodedToken = jwtDecode<CustomJwtPayload>(token);
         const tempEmail = decodedToken[emailTokenKey];
+        let rolesArray: string[] = decodedToken[roleKeyName];
         localStorage.setItem(emailKeyName, tempEmail); setEmail(tempEmail);
+        localStorage.setItem(roleKeyName, JSON.stringify(rolesArray)); setRoles(rolesArray);
     }
 
     useEffect(() => {

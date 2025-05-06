@@ -4,16 +4,21 @@ import {
     PasswordInput,
     Group,
     Button,
-    Anchor, Divider
+    Anchor, Divider,
+    Text,
+    Alert
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
 import AuthContainer from "../components/AuthContainer.tsx";
 import useAuth from "../hooks/useAuth.tsx";
+import { useState } from "react";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 const Login = () => {
     const {login} = useAuth();
     const navigate = useNavigate();
+     const [error, setError] = useState<string | null>(null);
 
     const form = useForm({
         initialValues: {
@@ -28,14 +33,31 @@ const Login = () => {
     });
 
 
-    const submit = () => {
-        login(form.values.email, form.values.password)
+    const submit = async () => {
+        setError(null);
+        const result = await login(form.values.email, form.values.password);
+        
+        if (!result.success) {
+            setError(result.error || 'Hibás email cím vagy jelszó');
+        }
     }
 
     return <AuthContainer>
         <div>
             <form onSubmit={form.onSubmit(submit)}>
                 <Stack>
+                {error && (
+          <Alert 
+            icon={<IconAlertCircle size="1rem" />}
+            title="Hiba!"
+            color="red"
+            mb="md"
+            withCloseButton
+            onClose={() => setError(null)}
+          >
+            {error}
+          </Alert>
+        )}
                     <TextInput
                         required
                         label="E-mail cím"
@@ -55,16 +77,24 @@ const Login = () => {
                     />
                 </Stack>
 
-                <Group justify="space-between" mt="xl">
+                <Group justify="right" mt="xl">
                     <Anchor component="button" type="button" c="dimmed" onClick={() => navigate('/forgot')}
                             size="xs">
                         Elfelejtetted a jelszavad?
                     </Anchor>
-                    <Button type="submit" radius="xl">
+                </Group>
+                <Group justify="center" mt="xl">
+                <Button type="submit" radius="xl" fullWidth>
                         Bejelentkezés
                     </Button>
-                </Group>
+                    </Group>
                 <Divider my="lg"/>
+                <Group justify="center" gap="xs">
+                <Text>Még nincs fiókod?</Text>
+                <Anchor component="button" type="button" onClick={() => navigate('/register')}>
+                    Regisztráció
+                </Anchor>
+                </Group>
             </form>
         </div>
     </AuthContainer>
