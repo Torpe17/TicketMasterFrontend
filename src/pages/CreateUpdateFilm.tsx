@@ -32,7 +32,7 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
 
         validate: {
             title: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
-            director: (value) =>value.length <= 0 ? "Kötelező kitölteni" : null,
+            director: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
             genre: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
             length: (value) => (value <= 0 ? "Nagyobb mint 0-nak kell lennie" : null),
             ageRating: (value) => (value < 0 || value > 18 ? "18 és 0 közötti számnak kell lennie" : null),
@@ -83,7 +83,6 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                                 setAgeRating: true
                             });
                         }
-
                         navigate(-1);
                     } catch (error) {
                         console.error("Failed to save film:", error);
@@ -148,11 +147,11 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
             </form>
             {alertVisible && (<Alert
                 variant="light"
-                color="red" 
-                title="Hiba" 
-                mt={16} 
+                color="red"
+                title="Hiba"
+                mt={16}
                 icon={<IconAlertTriangle />}
-                withCloseButton 
+                withCloseButton
                 onClose={() => setAlertVisible(false)}
                 closeButtonLabel="Dismiss">
                 Hiba történt a mentés során.

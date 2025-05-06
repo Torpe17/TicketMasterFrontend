@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
 
 const AdminPage = () => {
-
     const navigate = useNavigate();
     const [films, setFilms] = useState<IFilm[]>([]);
     const [screenings, setScreenings] = useState<IScreening[]>([]);
     const [value, setValue] = useState('');
     const [selectedFilm, setSelectedFilm] = useState<IFilm | null>(null);
+
 
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
@@ -35,7 +35,6 @@ const AdminPage = () => {
             }
         });
     }, []);
-
 
     useEffect(() => {
         if (selectedFilm) {
@@ -84,14 +83,14 @@ const AdminPage = () => {
                     color="red"
                     onClick={async () => {
                         if (!selectedFilm) return;
-                    
+
                         try {
-                          await api.Screening.deleteScreening(String(screening.id));
-                          setScreenings(prev => prev.filter(s => s.id !== screening.id));
+                            await api.Screening.deleteScreening(String(screening.id));
+                            setScreenings(prev => prev.filter(s => s.id !== screening.id));
                         } catch (error) {
-                          console.error('Failed to delete screening:', error);
+                            console.error('Failed to delete screening:', error);
                         }
-                      }}
+                    }}
                 >
                     Törlés
                 </Button>
@@ -103,9 +102,9 @@ const AdminPage = () => {
         <div>
             <Group justify="center">
                 <Button
-                    onClick={() => navigate('film/create')} 
-                    rightSection={<IconPlus size={14} />} 
-                    variant="light" 
+                    onClick={() => navigate('film/create')}
+                    rightSection={<IconPlus size={14} />}
+                    variant="light"
                     color="green">Új film</Button>
                 <Button
                     onClick={() => selectedFilm && navigate(`film/${selectedFilm.id}`)}
@@ -116,18 +115,16 @@ const AdminPage = () => {
                 <Button
                     onClick={async () => {
                         if (!selectedFilm) return;
-                    
                         try {
-                          await api.Films.deleteFilm(String(selectedFilm.id));
-                          setFilms(prev => prev.filter(f => f.id !== selectedFilm.id));
-                    
-                          setValue('');
-                          setSelectedFilm(null);
-                          setScreenings([]);
+                            await api.Films.deleteFilm(String(selectedFilm.id));
+                            setFilms(prev => prev.filter(f => f.id !== selectedFilm.id));
+                            setValue('');
+                            setSelectedFilm(null);
+                            setScreenings([]);
                         } catch (error) {
-                          console.error('Failed to delete film:', error);
+                            console.error('Failed to delete film:', error);
                         }
-                      }}
+                    }}
                     rightSection={<IconTrash size={14} />}
                     variant="light"
                     color="red"
@@ -164,10 +161,10 @@ const AdminPage = () => {
                 </Combobox.Dropdown>
             </Combobox>
 
-            <Button 
+            <Button
                 onClick={() => selectedFilm && navigate(`film/${selectedFilm?.id}/screening/create`)}
                 disabled={!selectedFilm}
-                rightSection={<IconPlus size={14} />} 
+                rightSection={<IconPlus size={14} />}
                 mt={25} variant="light" color="lime">
                 Új vetítés
             </Button>
