@@ -38,10 +38,10 @@ const ForgotPassword = () => {
             } catch (error) {
               if(error instanceof AxiosError){
                 let errorMessage = error.response?.data;
-                if(errorMessage.equals("This user does not exists.")){
+                if(errorMessage === "This user does not exists."){
                   errorMessage = "Ez a felhasználó nem létezik."
                 }
-                if(errorMessage.equals("Password can't be the old password")){
+                if(errorMessage === "Password can't be the old password"){
                   errorMessage = "Az új jelszó nem lehet a régi."
                 }
                 setError('A jelszó megváltoztatása sikertelen. ' + errorMessage);
