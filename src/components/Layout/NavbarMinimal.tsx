@@ -21,7 +21,6 @@ interface NavbarLinkProps {
 }
 
 function NavbarLink({icon: Icon, label, color, active, onClick}: NavbarLinkProps) {
-
     return (
         <div
             role="button"
@@ -43,6 +42,7 @@ export function NavbarMinimal({toggle}: any) {
     const [active, setActive] = useState(0);
     const navigate = useNavigate();
     const {logout} = useAuth();  
+    const { roles } = useAuth();
 
     const menuItems = [
         {
@@ -50,12 +50,16 @@ export function NavbarMinimal({toggle}: any) {
             label: "Kezdőlap",
             url: "dashboard",
         },
-        {
+    ];
+    
+    if (roles?.includes("Admin")) {
+        menuItems.push({
             icon: IconDatabaseEdit,
             label: "Admin oldal",
             url: "adminpage",
-        }
-    ];
+        });
+    }
+    
 
 
     const onLogout = () => {
