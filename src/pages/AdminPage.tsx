@@ -5,7 +5,6 @@ import { IScreening } from '../interfaces/IScreening';
 import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
-import { tokenKeyName } from '../constants/constants';
 
 const AdminPage = () => {
 

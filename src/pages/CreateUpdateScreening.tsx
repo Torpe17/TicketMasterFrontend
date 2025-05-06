@@ -1,12 +1,12 @@
-import { Button, Card, Fieldset, Grid, Group, NativeSelect, NumberInput, rem, Stack, Text, Title } from "@mantine/core";
+import { Alert, Button, Card, Fieldset, Group, NativeSelect, NumberInput, rem, Stack, Text, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import api from "../api/api.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IFilm } from "../interfaces/IFilm.ts";
-import { IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
-import { DateTimePicker, PickerInputBase } from '@mantine/dates';
+import { IconAlertTriangle, IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
+import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 
 
@@ -16,6 +16,7 @@ interface ICreateUpdateScreening {
 
 const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
     const navigate = useNavigate();
+    const [alertVisible, setAlertVisible] = useState(false);
 
     const form = useForm({
         mode: "uncontrolled",
@@ -86,6 +87,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                         navigate(-1);
                     } catch (error) {
                         console.error("Failed to save screening:", error);
+                        setAlertVisible(true);
                     }
                 })}
             >
@@ -180,6 +182,17 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                     <Button type="submit">Mentés</Button>
                 </Group>
             </form>
+            {alertVisible && (<Alert
+                variant="light"
+                color="red" 
+                title="Hiba" 
+                mt={16} 
+                icon={<IconAlertTriangle />}
+                withCloseButton 
+                onClose={() => setAlertVisible(false)}
+                closeButtonLabel="Dismiss">
+                Hiba történt a mentés során.
+            </Alert>)}
         </Card>
     );
 };
