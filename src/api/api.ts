@@ -1,6 +1,6 @@
 import axiosInstance from "./axios.config.ts";
 import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
-import { IFilm } from "../interfaces/IFilm.ts";
+import { IFilm } from './../interfaces/IFilm.ts';
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IScreening } from "../interfaces/IScreening.ts";
 

@@ -5,6 +5,7 @@ import Register from "../pages/Register.tsx";
 import AdminPage from "../pages/AdminPage.tsx";
 import CreateUpdateFilms from "../pages/CreateUpdateFilm.tsx";
 import CreateUpdateScreenings from "../pages/CreateUpdateScreening.tsx";
+import RequireAdmin from "../components/auth/RequireAdmin.tsx";
 export const routes = [
     {
         path: "login",
@@ -28,27 +29,31 @@ export const routes = [
     },
     {
         path: "adminpage",
-        component: <AdminPage/>,
+        component: (
+            <RequireAdmin>
+              <AdminPage />
+            </RequireAdmin>
+          ),
         isPrivate: true
     },
     {
         path: "adminpage/film/create",
-        component: <CreateUpdateFilms isCreate={true}/>,
+        component: (<RequireAdmin><CreateUpdateFilms isCreate={true}/></RequireAdmin>),
         isPrivate: true
     },
     {
         path: "adminpage/film/:id",
-        component: <CreateUpdateFilms isCreate={false}/>,
+        component: (<RequireAdmin><CreateUpdateFilms isCreate={false}/></RequireAdmin>),
         isPrivate: true
     },
     {
         path: "adminpage/film/:filmId/screening/create",
-        component: <CreateUpdateScreenings isCreate={true}/>,
+        component: (<RequireAdmin><CreateUpdateScreenings isCreate={true}/></RequireAdmin>),
         isPrivate: true
     },
     {
         path: "adminpage/film/:filmId/screening/:id",
-        component: <CreateUpdateScreenings isCreate={false}/>,
+        component: (<RequireAdmin><CreateUpdateScreenings isCreate={false}/></RequireAdmin>),
         isPrivate: true
     },
 ]

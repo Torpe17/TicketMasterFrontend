@@ -22,7 +22,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
         mode: "uncontrolled",
         initialValues: {
             filmId: 0,
-            roomId: 0,
+            roomId: "0",
             date: new Date(),
             defaultTicketPrice: 0,
         },
@@ -56,7 +56,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
             api.Screening.getScreening(String(id)).then((res) => {
                 form.initialize({
                     filmId: res.data.filmId,
-                    roomId: res.data.roomId,
+                    roomId: String(res.data.roomId),
                     date: new Date(res.data.date),
                     defaultTicketPrice: res.data.defaultTicketPrice,
                 });
@@ -70,17 +70,20 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                 onSubmit={form.onSubmit(async (values) => {
                     try {
                         if (isCreate) {
+                            console.log(values.date);
+                            console.log(values.date.toISOString());
+                            
                             await api.Screening.createScreening({
                                 filmId: Number(film?.id),
                                 roomId: Number(values.roomId),
-                                date: String(values.date).replace(" ","T"),
+                                date: values.date.toISOString(),
                                 defaultTicketPrice: Number(values.defaultTicketPrice)
                             });
                         } else {
                             await api.Screening.updateScreening(String(id), {
                                 filmId: Number(film?.id),
                                 roomId: Number(values.roomId),
-                                date: String(values.date).replace(" ","T"),
+                                date: values.date.toISOString(), 
                                 defaultTicketPrice: Number(values.defaultTicketPrice)
                             })
                         }
