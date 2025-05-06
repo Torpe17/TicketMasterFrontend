@@ -37,7 +37,13 @@ const ForgotPassword = () => {
               setSuccessModalOpened(true);
             } catch (error) {
               if(error instanceof AxiosError){
-                const errorMessage = error.response?.data;
+                let errorMessage = error.response?.data;
+                if(errorMessage.equals("This user does not exists.")){
+                  errorMessage = "Ez a felhasználó nem létezik."
+                }
+                if(errorMessage.equals("Password can't be the old password")){
+                  errorMessage = "Az új jelszó nem lehet a régi."
+                }
                 setError('A jelszó megváltoztatása sikertelen. ' + errorMessage);
               }
             }

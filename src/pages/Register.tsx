@@ -64,7 +64,13 @@ const Register = () => {
           setSuccessModalOpened(true);
         } catch (error) {
           if(error instanceof AxiosError){
-            const errorMessage = error.response?.data;
+            let errorMessage = error.response?.data;
+            if(errorMessage.equals("There is already a User with this Email")){
+              errorMessage = "Már van egy felhasználó ezzel az email címmel."
+            }
+            if(errorMessage.equals("There is already a User with this Username")){
+              errorMessage = "Már van egy felhasználó ezzel a felhasználó névvel."
+            }
             setError('A regisztráció sikertelen. Kérjük, próbáld újra. ' + errorMessage);
           }
         }
