@@ -17,7 +17,7 @@ import { FormEvent, useState } from "react";
 import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
 import { AxiosError } from "axios";
 import AuthContainer from "../components/AuthContainer.tsx";
-import 'dayjs/locale/hu'; // Import Hungarian locale if needed
+import 'dayjs/locale/hu';
 
 const Register = () => {
   const navigate = useNavigate();

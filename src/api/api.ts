@@ -1,5 +1,3 @@
-import { IFilm } from "../interfaces/IFilm.ts";
-import { IScreening } from "../interfaces/IScreening.ts";
 import axiosInstance from "./axios.config.ts";
 
 const Auth = {
@@ -14,13 +12,9 @@ const UpdatePasswordPut = {
     updatePassword: (email: string, password: string) => axiosInstance.put('/api/Users/update-password', {email, password})
 }
 
-const Films = {
-    getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),
-}
+const Films = {}
 
-const Screening = {
-    getScreenings: (filmId: number) => axiosInstance.get<IScreening[]>(`/api/film/${filmId}/screenings`),
-}
+const Screening = {}
 
 const Tickets = {}
 
