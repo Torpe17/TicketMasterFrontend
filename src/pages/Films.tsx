@@ -41,8 +41,8 @@ const Films: React.FC = () => {
   }
 
   return (
-    <Container>
-      <SimpleGrid cols={3} spacing="lg">
+    <Container fluid>
+      <SimpleGrid cols={5} spacing="lg">
         {films.map((film) => (
           <FilmCard key={film.id} film={film} />
         ))}
