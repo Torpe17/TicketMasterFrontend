@@ -10,6 +10,10 @@ const RegisterPost = {
     register: (name : string, email : string, password: string, roleIds: number[], birthDate?: string | null) => axiosInstance.post('/api/Users/register', {name, email, password, birthDate : birthDate || undefined, roleIds})
 }
 
+const UpdatePasswordPut = {
+    updatePassword: (email: string, password: string) => axiosInstance.put('/api/Users/update-password', {email, password})
+}
+
 const Films = {
     getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),
 }
@@ -20,6 +24,6 @@ const Screening = {
 
 const Tickets = {}
 
-const api = {Films, Auth, Screening, Tickets, RegisterPost};
+const api = {Films, Auth, Screening, Tickets, RegisterPost, UpdatePasswordPut};
 
 export default api;

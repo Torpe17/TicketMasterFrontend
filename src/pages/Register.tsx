@@ -6,20 +6,22 @@ import {
     Button,
     Anchor, Divider,
     Text,
-    Alert
+    Alert,
+    Modal
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useNavigate} from "react-router-dom";
 import { DateInput} from '@mantine/dates';
 import api from "../api/api.ts";
 import { FormEvent, useState } from "react";
-import { IconAlertCircle } from '@tabler/icons-react';
+import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
 import { AxiosError } from "axios";
 import AuthContainer from "../components/AuthContainer.tsx";
 import 'dayjs/locale/hu'; // Import Hungarian locale if needed
 
 const Register = () => {
   const navigate = useNavigate();
+  const [successModalOpened, setSuccessModalOpened] = useState(false)
   const [error, setError] = useState<string | null>(null);
 
     const form = useForm({
@@ -59,6 +61,7 @@ const Register = () => {
             [3],
             formatDateOnly(values.birthDate)
           );
+          setSuccessModalOpened(true);
         } catch (error) {
           if(error instanceof AxiosError){
             const errorMessage = error.response?.data;
@@ -66,7 +69,14 @@ const Register = () => {
           }
         }
       };
+
+      const handleModalClose = () => {
+        setSuccessModalOpened(false);
+        navigate('/login'); // Redirect when modal closes
+    };
+
       return (<AuthContainer>
+        <>
         <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
         {error && (
@@ -84,8 +94,8 @@ const Register = () => {
 
           <TextInput
                 required
-                label="Teljes név"
-                placeholder="Jane Doe"
+                label="Felhasználó név"
+                placeholder="jane_doe"
                 key={form.key('name')}
                 radius="md"
                 {...form.getInputProps('name')}
@@ -131,6 +141,24 @@ const Register = () => {
       </Anchor>
   </Group>
     </form>
+    <Modal
+                opened={successModalOpened}
+                onClose={handleModalClose}
+                title="Siker!"
+                centered
+                withCloseButton
+            >
+                <Group>
+                    <IconCheck color="green" />
+                    <Text>A regisztráció sikeresen megtörtént!</Text>
+                </Group>
+                <Group justify="center" mt="md">
+                    <Button onClick={handleModalClose}>
+                        OK
+                    </Button>
+                </Group>
+            </Modal>
+    </>
     </AuthContainer>
         );
 }

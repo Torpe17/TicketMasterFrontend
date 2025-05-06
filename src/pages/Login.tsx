@@ -34,7 +34,7 @@ const Login = () => {
 
 
     const submit = async () => {
-        setError(null); // Clear previous errors
+        setError(null);
         const result = await login(form.values.email, form.values.password);
         
         if (!result.success) {
