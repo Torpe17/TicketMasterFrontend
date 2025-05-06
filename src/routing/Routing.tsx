@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth.tsx";
 import {routes} from "./Routes.tsx";
 import {ReactElement} from "react";
 
+
 const PrivateRoute = ({element}: {element: ReactElement}) => {
     const { isLoggedIn } = useAuth();
     return isLoggedIn ? element : <Navigate to="/login" />;
@@ -47,6 +48,7 @@ const Routing = () => {
                 ))
             }
         </Route>
+       
     </Routes>
 }
 

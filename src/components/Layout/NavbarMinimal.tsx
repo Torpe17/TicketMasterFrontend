@@ -48,6 +48,11 @@ export function NavbarMinimal({toggle}: any) {
             icon: IconHome,
             label: "Kezdőlap",
             url: "dashboard",
+        },
+        {
+            icon: IconHome,
+            label: "Filmek",
+            url: "films",
         }
     ];
 
