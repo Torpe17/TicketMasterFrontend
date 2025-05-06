@@ -4,7 +4,8 @@ import {
     IconUserCircle,
     IconLogout,
     IconHome,
-    IconTicket
+    IconTicket,
+    IconDatabaseEdit
 } from "@tabler/icons-react";
 import classes from "./NavbarMinimalColored.module.css";
 import {useNavigate} from "react-router-dom";
@@ -54,6 +55,11 @@ export function NavbarMinimal({toggle}: any) {
             icon: IconTicket,
             label: "Jegyek",
             url: "tickets"
+        },
+        {
+            icon: IconDatabaseEdit,
+            label: "Admin oldal",
+            url: "adminpage",
         }
     ];
 
