@@ -1,6 +1,7 @@
 import Login from "../pages/Login.tsx";
 import ForgotPassword from "../pages/ForgotPassword.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
+import Tickets from "../pages/Tickets.tsx";
 export const routes = [
     {
         path: "login",
@@ -17,4 +18,9 @@ export const routes = [
         component: <Dashboard/>,
         isPrivate: true
     },
+    {
+        path: "tickets",
+        component: <Tickets/>,
+        isPrivate: true
+    }
 ]
