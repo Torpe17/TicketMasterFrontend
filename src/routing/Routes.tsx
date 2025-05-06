@@ -2,6 +2,9 @@ import Login from "../pages/Login.tsx";
 import ForgotPassword from "../pages/ForgotPassword.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
 import Register from "../pages/Register.tsx";
+import AdminPage from "../pages/AdminPage.tsx";
+import CreateUpdateFilms from "../pages/CreateUpdateFilm.tsx";
+import CreateUpdateScreenings from "../pages/CreateUpdateScreening.tsx";
 export const routes = [
     {
         path: "login",
@@ -21,6 +24,31 @@ export const routes = [
     {
         path: "dashboard",
         component: <Dashboard/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage",
+        component: <AdminPage/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/film/create",
+        component: <CreateUpdateFilms isCreate={true}/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/film/:id",
+        component: <CreateUpdateFilms isCreate={false}/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/film/:filmId/screening/create",
+        component: <CreateUpdateScreenings isCreate={true}/>,
+        isPrivate: true
+    },
+    {
+        path: "adminpage/film/:filmId/screening/:id",
+        component: <CreateUpdateScreenings isCreate={false}/>,
         isPrivate: true
     },
 ]
