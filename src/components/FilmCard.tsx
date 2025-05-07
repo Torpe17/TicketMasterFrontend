@@ -1,4 +1,5 @@
 import { Card, Text, Badge, Button, Group, Image, Space} from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 interface Film {
     id: string;
@@ -15,6 +16,7 @@ interface FilmCardProps {
 }
 
 const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
+    const navigate = useNavigate();
     return (
         
       <Card
@@ -44,7 +46,7 @@ const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
         </Text>
   
         <div style={{ marginTop: 'auto' }}>
-          <Button color="blue" fullWidth mt="md" radius="md">
+          <Button color="blue" fullWidth mt="md" radius="md" onClick={() => navigate(`${film.id}`)}>
             Részletek
           </Button>
         </div>

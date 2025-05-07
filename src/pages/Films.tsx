@@ -1,5 +1,5 @@
 // src/pages/Films.tsx
-import { useEffect, useState, useRef  } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, SimpleGrid, Loader, Center, Input, Drawer, Button, CloseButton, Checkbox, Space } from '@mantine/core';
 import FilmCard from '../components/FilmCard';
 import { useDisclosure } from '@mantine/hooks';
@@ -36,9 +36,7 @@ const Films: React.FC = () => {
   }
 
   useEffect(() => {      
-    const fetchFilms = async () => {
-        console.log(`${nameValue} | ${datevalue} | ${checked} | ${debouncedNameValue}`);
-        
+    const fetchFilms = async () => {        
       try {
         var response;
         if(datevalue != "" && datevalue != null && checked && debouncedNameValue == ""){ //date picket AND checbox checked AND no name
