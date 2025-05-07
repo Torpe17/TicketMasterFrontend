@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { IconAlertTriangle, IconCheck, IconObjectScan } from "@tabler/icons-react";
 import api from "../api/api";
 import { useEffect, useRef, useState } from "react";
-// import "./QrStyles.css";
+import "./QrStyles.css";
 import QrScanner from "qr-scanner";
 import { useDisclosure } from "@mantine/hooks";
 
