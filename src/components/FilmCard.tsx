@@ -1,4 +1,4 @@
-import { Card, Text, Badge, Button, Group } from '@mantine/core';
+import { Card, Text, Badge, Button, Group, Image, Space} from '@mantine/core';
 
 interface Film {
     id: string;
@@ -7,6 +7,7 @@ interface Film {
     genre: string;
     length: number,
     ageRating: number
+    pictureBase64? : string
 }
 
 interface FilmCardProps {
@@ -15,6 +16,7 @@ interface FilmCardProps {
 
 const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
     return (
+        
       <Card
         shadow="sm"
         padding="lg"
@@ -22,6 +24,14 @@ const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
         withBorder
         style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
       >
+         <Card.Section>
+            <Image
+            src={`data:image/jpeg;base64,${film.pictureBase64}`}
+            height={160}
+            alt={film.title}
+            />
+        </Card.Section>
+            <Space h="xs" />
           <Text fw={500}>{film.title}</Text>
         <Group  justify="space-between" mt="xs" mb="xs">
           <Badge color="pink">{film.genre}</Badge>
