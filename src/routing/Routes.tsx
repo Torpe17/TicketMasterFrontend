@@ -1,6 +1,7 @@
 import Login from "../pages/Login.tsx";
 import ForgotPassword from "../pages/ForgotPassword.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
+import Tickets from "../pages/Tickets.tsx";
 import Register from "../pages/Register.tsx";
 import AdminPage from "../pages/AdminPage.tsx";
 import CreateUpdateFilms from "../pages/CreateUpdateFilm.tsx";
@@ -35,7 +36,11 @@ export const routes = [
             <RequireCashier>
               <TicketInspection />
             </RequireCashier>
-          ),
+          )
+    },
+    {  
+        path: "tickets",
+        component: <Tickets/>,
         isPrivate: true
     },
     {

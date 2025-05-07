@@ -1,3 +1,4 @@
+import { IPurchase } from "../interfaces/IPurchase"
 import axiosInstance from "./axios.config.ts";
 import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
 import { IFilm } from './../interfaces/IFilm.ts';
@@ -41,6 +42,11 @@ const Room = {
     getRooms: () => axiosInstance.get<IRoom[]>(`/api/rooms`),
 }
 
-const api = {Films, User, Screening, Tickets, Room};
+const Purchases = {
+    getMyPurchases: () => axiosInstance.get<IPurchase[]>('/api/myPurchases'),
+    deletePurchase: (purchaseId: number) => axiosInstance.delete(`/api/purchase/${purchaseId}`)
+}
+
+const api = {Films, User, Screening, Tickets, Room, Purchases};
 
 export default api;
