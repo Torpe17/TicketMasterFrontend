@@ -6,6 +6,8 @@ import AdminPage from "../pages/AdminPage.tsx";
 import CreateUpdateFilms from "../pages/CreateUpdateFilm.tsx";
 import CreateUpdateScreenings from "../pages/CreateUpdateScreening.tsx";
 import RequireAdmin from "../components/auth/RequireAdmin.tsx";
+import TicketInspection from "../pages/TicketInspection.tsx";
+import RequireCashier from "../components/auth/RequireCashier.tsx";
 export const routes = [
     {
         path: "login",
@@ -25,6 +27,15 @@ export const routes = [
     {
         path: "dashboard",
         component: <Dashboard/>,
+        isPrivate: true
+    },
+    {
+        path: "ticket-inspection",
+        component: (
+            <RequireCashier>
+              <TicketInspection />
+            </RequireCashier>
+          ),
         isPrivate: true
     },
     {

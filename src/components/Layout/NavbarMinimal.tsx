@@ -4,7 +4,8 @@ import {
     IconUserCircle,
     IconLogout,
     IconHome,
-    IconDatabaseEdit
+    IconDatabaseEdit,
+    IconGridScan
 } from "@tabler/icons-react";
 import classes from "./NavbarMinimalColored.module.css";
 import {useNavigate} from "react-router-dom";
@@ -51,7 +52,13 @@ export function NavbarMinimal({toggle}: any) {
             url: "dashboard",
         },
     ];
-    
+    if (roles?.includes("Cashier")) {
+        menuItems.push({
+            icon: IconGridScan,
+            label: "Jegy ellenőrzés",
+            url: "ticket-inspection",
+        });
+    }
     if (roles?.includes("Admin")) {
         menuItems.push({
             icon: IconDatabaseEdit,
