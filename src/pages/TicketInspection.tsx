@@ -125,9 +125,9 @@ const TicketInspection = () => {
                     <Button type="submit">Mentés</Button>
                 </Group>
 
-                <Button variant="default" leftSection={<IconObjectScan />} onClick={open}>
+                {qrOn && (<Button variant="default" leftSection={<IconObjectScan />} onClick={open}>
                     Beolvasás
-                </Button>
+                </Button>)}
             </form>
             {errorVisible && (<Alert
                 variant="light"
@@ -155,19 +155,9 @@ const TicketInspection = () => {
 
         </Fieldset>
         <Modal opened={opened} onClose={close} title="Jegy beolvasás">
+            {!qrOn && (<p>Nincs engedélyezve a kamera.</p>)}
             <div className="qr-reader">
                 <video ref={videoEl} width={256} height={256}></video>
-                <div ref={qrBoxEl} className="qr-box">
-                    {!videoEl?.current && (
-                        <img
-                            src="/static/images/icons/scan_qr1.svg"
-                            alt="Qr Frame"
-                            width={256}
-                            height={256}
-                            className="qr-frame"
-                        />
-                    )}
-                </div>
             </div>
         </Modal>
     </Card>
