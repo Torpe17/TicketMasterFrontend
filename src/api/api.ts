@@ -1,5 +1,4 @@
 import { IPurchase } from "../interfaces/IPurchase"
-import axiosInstance from "./axios.config"
 import axiosInstance from "./axios.config.ts";
 import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
 import { IFilm } from './../interfaces/IFilm.ts';
@@ -52,6 +51,6 @@ const Purchases = {
     getMyPurchases: () => axiosInstance.get<IPurchase[]>('api/myPurchases')
 }
 
-const api = {Films, Auth, Screening, Tickets, RegisterPost, UpdatePasswordPut, Room};
+const api = {Films, Auth, Screening, Tickets, RegisterPost, UpdatePasswordPut, Room, Purchases};
 
 export default api;
