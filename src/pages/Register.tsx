@@ -34,9 +34,9 @@ const Register = () => {
       },
     
         validate: {
-          email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Érvénytelen e-mail cím'),
+          email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Érvénytelen e-mail cím.'),
           password: (val: string) => (val.length <= 6 ? 'A jelszónak 6 karakter hosszúnak kell lennie.' : null),
-          birthDate: (val: Date | null) => (val ? null : 'Kötelező a születési dátum')
+          birthDate: (val: Date | null) => (val ? null : 'Kötelező a születési dátum.')
         },
       });
 
