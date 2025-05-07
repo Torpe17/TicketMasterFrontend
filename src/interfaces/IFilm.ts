@@ -3,7 +3,7 @@ export interface IFilm{
     title: string;
     director: string;
     genre: string;
-    length: string;
+    length: number;
     description: string;
     ageRating: number;
 }
