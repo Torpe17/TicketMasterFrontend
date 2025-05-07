@@ -50,15 +50,17 @@ export function NavbarMinimal({toggle}: any) {
             icon: IconHome,
             label: "Kezdőlap",
             url: "dashboard",
-        },
-        {
+        }        
+    ];
+    
+    if (roles?.includes("Customer")) {
+        menuItems.push({
             icon: IconTicket,
             label: "Jegyek",
             url: "tickets"
-        },
-        
-    ];
-    
+        })
+    }
+
     if (roles?.includes("Admin")) {
         menuItems.push({
             icon: IconDatabaseEdit,

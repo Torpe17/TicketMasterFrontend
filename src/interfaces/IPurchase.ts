@@ -1,3 +1,5 @@
+import { ITicket } from "./ITicket";
+
 export interface IPurchase {
     id: number,
     userId: number,
@@ -5,5 +7,7 @@ export interface IPurchase {
     totalPrice: number,
     ticketCount: number,
     ticketFilmName: string,
+    screeningTime: Date,
+    tickets: ITicket[],
     purchaseDate: string
 }
