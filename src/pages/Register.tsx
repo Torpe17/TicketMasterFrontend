@@ -40,21 +40,28 @@ const Register = () => {
         },
       });
 
-      const formatDateOnly = (date: Date | null): string | undefined => {
+      const formatDateOnly = (date: Date | string |null): string | undefined => {
         if (!date) return undefined;
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          return date;
+        }
+        if (date instanceof Date) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        }
       };
 
       const handleSubmit = async (
         values: { name: string; email: string; password: string; birthDate: Date | null },
         event?: FormEvent<HTMLFormElement>
       ) => {
+        console.log("Form submitted!");
         event?.preventDefault();
         try {
-          await api.RegisterPost.register(
+          console.log('Register params:', values.name, values.email, values.password, [3], formatDateOnly(values.birthDate));
+          await api.User.register(
             values.name,
             values.email,
             values.password,

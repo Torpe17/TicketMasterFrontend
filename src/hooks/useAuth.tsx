@@ -15,7 +15,7 @@ const useAuth = () => {
 
     const login = async (email: string, password: string) => {
         try {
-            const response = await api.Auth.login(email, password);
+            const response = await api.User.login(email, password);
             loginKata(response.data.token);
             return { success: true };
         } catch (error: any) {
