@@ -41,7 +41,9 @@ const UpdatePasswordPut = {
     updatePassword: (email: string, password: string) => axiosInstance.put('/api/Users/update-password', {email, password})
 }
 
-const Tickets = {}
+const Tickets = {
+    validateTicket: (id: number) => axiosInstance.put<void>(`/api/tickets/${id}/validate`)
+}
 const Room = {
     getRooms: () => axiosInstance.get<IRoom[]>(`/api/rooms`),
 }

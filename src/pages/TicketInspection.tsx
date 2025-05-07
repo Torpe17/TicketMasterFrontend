@@ -2,9 +2,11 @@ import { Alert, Button, Card, Fieldset, Group, NumberInput, rem, Title } from "@
 import { useForm } from "@mantine/form";
 import { IconAlertTriangle } from "@tabler/icons-react";
 import { useState } from "react";
+import api from "../api/api";
 
 const TicketInspection = () => {
     const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("")
 
     const form = useForm({
         mode: "uncontrolled",
@@ -32,9 +34,21 @@ const TicketInspection = () => {
             <form
                 onSubmit={form.onSubmit(async (values) => {
                     try {
-                        //todo
-                    } catch (error) {
-                        console.error("Failed to validate ticket:", error);
+                        await api.Tickets.validateTicket(values.id)
+                            .then(res => {
+                                if(res.status == 200){
+                                    console.log("ok");
+                                    //todo
+                                }
+                            });
+                    } catch (error: any) {
+                        if(error.response){
+                            const status = error.response.status;
+                            console.log(status);
+                            if(status == 404) setAlertMessage("A jegy nem található.")                     
+                            else if(status == 400) setAlertMessage("A jegyet már ellenőrizték.")
+                            else {setAlertMessage("");}                     
+                        }
                         setAlertVisible(true);
                     }
                 })}
@@ -61,7 +75,8 @@ const TicketInspection = () => {
                 withCloseButton
                 onClose={() => setAlertVisible(false)}
                 closeButtonLabel="Dismiss">
-                Hiba történt a művelet során.
+                Hiba történt a művelet során. <br/>
+                {alertMessage}
             </Alert>)}
         </Fieldset>
     </Card>
