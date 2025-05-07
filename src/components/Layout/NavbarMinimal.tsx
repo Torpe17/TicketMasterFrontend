@@ -3,7 +3,9 @@ import {rem, Button, useMantineTheme} from "@mantine/core";
 import {
     IconUserCircle,
     IconLogout,
-    IconHome
+    IconHome,
+    IconDatabaseEdit,
+    IconGridScan
 } from "@tabler/icons-react";
 import classes from "./NavbarMinimalColored.module.css";
 import {useNavigate} from "react-router-dom";
@@ -20,7 +22,6 @@ interface NavbarLinkProps {
 }
 
 function NavbarLink({icon: Icon, label, color, active, onClick}: NavbarLinkProps) {
-
     return (
         <div
             role="button"
@@ -42,6 +43,7 @@ export function NavbarMinimal({toggle}: any) {
     const [active, setActive] = useState(0);
     const navigate = useNavigate();
     const {logout} = useAuth();  
+    const { roles } = useAuth();
 
     const menuItems = [
         {
@@ -55,6 +57,21 @@ export function NavbarMinimal({toggle}: any) {
             url: "films",
         }
     ];
+    if (roles?.includes("Cashier")) {
+        menuItems.push({
+            icon: IconGridScan,
+            label: "Jegy ellenőrzés",
+            url: "ticket-inspection",
+        });
+    }
+    if (roles?.includes("Admin")) {
+        menuItems.push({
+            icon: IconDatabaseEdit,
+            label: "Admin oldal",
+            url: "adminpage",
+        });
+    }
+    
 
 
     const onLogout = () => {

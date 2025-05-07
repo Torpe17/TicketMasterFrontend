@@ -3,6 +3,7 @@ import BasicLayout from "../components/Layout/BasicLayout.tsx";
 import useAuth from "../hooks/useAuth.tsx";
 import {routes} from "./Routes.tsx";
 import {ReactElement} from "react";
+import Unauthorized from "../pages/Unauthorized.tsx";
 
 
 const PrivateRoute = ({element}: {element: ReactElement}) => {
@@ -22,6 +23,7 @@ const Routing = () => {
             path="/"
             element={<AuthenticatedRedirect element={<Navigate to="login" />} />}
         />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         {
             routes.filter(route => !route.isPrivate).map(route => (
                 <Route
