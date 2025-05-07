@@ -9,7 +9,7 @@ const RegisterPost = {
 }
 
 const UpdatePasswordPut = {
-    updatePassword: (email: string, password: string) => axiosInstance.put('/api/Users/update-password', {email, password})
+    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate})
 }
 
 const Films = {}
