@@ -1,12 +1,14 @@
 import { Alert, Button, Card, Fieldset, Group, NumberInput, rem, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconAlertTriangle } from "@tabler/icons-react";
+import { IconAlertTriangle, IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
 import api from "../api/api";
 
 const TicketInspection = () => {
-    const [alertVisible, setAlertVisible] = useState(false);
+    const [errorVisible, setErrorVisible] = useState(false);
+    const [successVisible, setSuccessVisible] = useState(false);
     const [alertMessage, setAlertMessage] = useState("")
+    const [lastValidatedId, setLastValidatedId] = useState(-1);
 
     const form = useForm({
         mode: "uncontrolled",
@@ -37,8 +39,9 @@ const TicketInspection = () => {
                         await api.Tickets.validateTicket(values.id)
                             .then(res => {
                                 if(res.status == 200){
-                                    console.log("ok");
-                                    //todo
+                                    setErrorVisible(false);
+                                    setSuccessVisible(true);
+                                    setLastValidatedId(values.id)
                                 }
                             });
                     } catch (error: any) {
@@ -49,7 +52,8 @@ const TicketInspection = () => {
                             else if(status == 400) setAlertMessage("A jegyet már ellenőrizték.")
                             else {setAlertMessage("");}                     
                         }
-                        setAlertVisible(true);
+                        setErrorVisible(true);
+                        setSuccessVisible(false);
                     }
                 })}
             >
@@ -66,17 +70,28 @@ const TicketInspection = () => {
                     <Button type="submit">Mentés</Button>
                 </Group>
             </form>
-            {alertVisible && (<Alert
+            {errorVisible && (<Alert
                 variant="light"
                 color="red"
                 title="Hiba"
                 mt={16}
                 icon={<IconAlertTriangle />}
                 withCloseButton
-                onClose={() => setAlertVisible(false)}
+                onClose={() => setErrorVisible(false)}
                 closeButtonLabel="Dismiss">
                 Hiba történt a művelet során. <br/>
                 {alertMessage}
+            </Alert>)}
+            {successVisible && lastValidatedId != -1 && (<Alert
+                variant="light"
+                color="green"
+                title="Sikeres ellenőrzés"
+                mt={16}
+                icon={<IconCheck />}
+                withCloseButton
+                onClose={() => setSuccessVisible(false)}
+                closeButtonLabel="Dismiss">
+                A {lastValidatedId} azonosítójú jegy sikeresen ellenőrizve.<br/>
             </Alert>)}
         </Fieldset>
     </Card>
