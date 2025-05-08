@@ -36,7 +36,8 @@ export const routes = [
             <RequireCashier>
               <TicketInspection />
             </RequireCashier>
-          )
+          ),
+          isPrivate: true
     },
     {  
         path: "tickets",
