@@ -1,17 +1,19 @@
-import { Accordion, Button, Text, Title, Group, Box, Tooltip } from "@mantine/core";
+import { Accordion, Button, Text, Title, Group, Box, Tooltip, Modal } from "@mantine/core";
 import { IconReceipt, IconTrash, IconArmchair, IconSum, IconCalendar } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import { IPurchase } from "../interfaces/IPurchase";
+import { useDisclosure } from "@mantine/hooks";
 
 const Tickets = () => {
     const [purchases, setPurchases] = useState<IPurchase[]>([]);
+    const [opened, { open, close }] = useDisclosure(false);
 
     const canDeletePurchase = (screeningTime: Date) => {
         const screeningMs = new Date(screeningTime).getTime();
         const currentTime = new Date().getTime();
         const fourHoursInMs = 4 * 60 * 60 * 1000;
-        
+
         return (screeningMs - currentTime) < fourHoursInMs;
     }
 
@@ -25,14 +27,30 @@ const Tickets = () => {
         try {
             await api.Purchases.deletePurchase(purchaseId);
             setPurchases(purchases.filter(p => p.id !== purchaseId));
-          } catch (error) {
+        } catch (error) {
             console.error("Failed to delete purchase:", error);
             // Optionally show error to user
-          }
-
+        }
 
         console.log("Deleting purchase:", purchaseId);
     };
+
+    //qr code
+    const [img, setImg] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [currentTicketId, setCurrentTicketId] = useState(0);
+
+    const generateQR = (qrData: string) => {
+        setLoading(true);
+        try {
+            const url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}`;
+            setImg(url);
+        } catch (error) {
+            console.error("Error generating QR code", error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const items = purchases.map((purchase) => (
         <Accordion.Item key={purchase.id} value={String(purchase.id)}>
@@ -56,17 +74,24 @@ const Tickets = () => {
                 <Title order={5} mb="sm">Jegyek:</Title>
                 <div>
                     {purchase.tickets.map((ticket, index) => (
-                        <Group key={ticket.id || index} mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '8px' }}>
+                        <div><Group key={ticket.id} mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '8px' }}>
                             <IconArmchair size={16} />
                             <Text size="sm">Jegy {index + 1}:</Text>
                             <Text size="sm">Sor: {ticket.seatRow}, Szék: {ticket.seatColumn}</Text>
+                            <Button variant="default" onClick={() => {
+                                open();
+                                generateQR(String(ticket.id))
+                                setCurrentTicketId(ticket.id)
+                            }}>Felmutatás</Button>
                         </Group>
+                        </div>
                     ))}
+
                 </div>
             </Accordion.Panel>
 
             <Accordion.Panel>
-                <Tooltip 
+                <Tooltip
                     label="A vásárlást 4 órán belül a vetítéshez képest nem lehet törölni."
                     disabled={!canDeletePurchase(purchase.screeningTime)}
                     position="bottom">
@@ -76,7 +101,7 @@ const Tickets = () => {
                             radius="xl"
                             color={!canDeletePurchase(purchase.screeningTime) ? "red" : "gray"}
                             disabled={canDeletePurchase(purchase.screeningTime)}
-                            onClick={() => {handleDelete(purchase.id)}}
+                            onClick={() => { handleDelete(purchase.id) }}
                             style={{
                                 transition: 'all 0.2s ease',
                                 cursor: !canDeletePurchase(purchase.screeningTime) ? 'pointer' : 'not-allowed'
@@ -85,9 +110,10 @@ const Tickets = () => {
                         </Button>
                     </div>
                 </Tooltip>
-                
+
             </Accordion.Panel>
         </Accordion.Item>
+
     ));
 
     return (
@@ -100,6 +126,14 @@ const Tickets = () => {
             >
                 {items}
             </Accordion>
+
+            <Modal opened={opened} onClose={close} title="Jegy">
+                <div className="app-container">
+                    {loading && <p>Please Wait....</p>}
+                    {img && <img src={img} className="qr-code-image" />}
+                    <p>id: {currentTicketId}</p>
+                </div>
+            </Modal>
         </div>
     );
 };
