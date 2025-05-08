@@ -8,7 +8,12 @@ import { IScreening } from "../interfaces/IScreening.ts";
 const User ={
     login: (email: string, password: string) => axiosInstance.post<{token: string}>(`/api/Users/login`, {email, password}),
     register: (name : string, email : string, password: string, roleIds: number[], birthDate?: string | null) => axiosInstance.post('/api/Users/register', {name, email, password, birthDate : birthDate || undefined, roleIds}),
-    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate})
+    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate}),
+    updateProfile: (email: string | null, username: string | null) => axiosInstance.put('/api/Users/update-profile', {email, username}),
+    createAddress: (country: string, county: string, zipcode: number, city: string, street: string, housenumber: number, floor: string | null) => axiosInstance.post('/api/Users/address', {country, county, zipcode, city, street, housenumber, floor}),
+    deleteAddress: () => axiosInstance.delete('/api/Users/address'),
+    getAddress: () => axiosInstance.get<IAddress>('/api/Users/address'),
+    updateAddress: (setFloor: boolean, country: string | null, county: string | null, zipcode: number | null, city: string | null, street: string | null, housenumber: number | null, floor: string | null) => axiosInstance.put('/api/Users/address', {country, county, zipcode, city, street,  floor, setFloor,housenumber})
 }
 
 const Films = {

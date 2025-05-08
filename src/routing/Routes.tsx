@@ -9,6 +9,8 @@ import CreateUpdateScreenings from "../pages/CreateUpdateScreening.tsx";
 import RequireAdmin from "../components/auth/RequireAdmin.tsx";
 import TicketInspection from "../pages/TicketInspection.tsx";
 import RequireCashier from "../components/auth/RequireCashier.tsx";
+import UserProfile from "../pages/UserProfile.tsx";
+import CreateAddress from "../pages/CreateAddress.tsx";
 export const routes = [
     {
         path: "login",
@@ -73,4 +75,19 @@ export const routes = [
         component: (<RequireAdmin><CreateUpdateScreenings isCreate={false}/></RequireAdmin>),
         isPrivate: true
     },
+    {
+        path: "profile",
+        component: <UserProfile/>,
+        isPrivate: true,
+    },
+    {
+        path: "newAddress",
+        component: <CreateAddress isCreate={true}/>,
+        isPrivate: true,
+    },
+    {
+        path: "editAddress",
+        component: <CreateAddress isCreate={false}/>,
+        isPrivate: true,
+    }
 ]
