@@ -1,15 +1,44 @@
-import { Alert, Button, Group, TextInput, } from "@mantine/core";
+import { Alert, Button, Group, Modal, TextInput, Text, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import useAuth from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import { AxiosError } from "axios";
-import { IconAlertCircle, IconEdit, IconX } from "@tabler/icons-react";
+import { IconAlertCircle, IconCheck, IconEdit, IconHomeCog, IconHomePlus, IconHomeX, IconX } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
+import { useDisclosure } from "@mantine/hooks";
 
 const UserProfile = () => {
     const {name, email, setName, setEmail} = useAuth();
     const [error, setError] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
+    const [opened, { open, close }] = useDisclosure(false);
+    const [success, setSuccess] = useState<string | null>(null);
+    const [hasAddress, setHasAddress] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    
+    useEffect(() => {
+        const checkAddress = async () => {
+            try {
+                await api.User.getAddress();
+                setHasAddress(true);
+            } catch (error) {
+                setHasAddress(false);
+            } finally {
+                setLoading(false);
+            }
+        };
+        checkAddress();
+    }, []);
+
+    const handleNewAddressClick = () => {
+        if (hasAddress) {
+            navigate('/app/editAddress');
+        } else {
+            navigate('/app/newAddress');
+        }
+    };
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -68,10 +97,42 @@ const UserProfile = () => {
         }
     };
     
+    const handleDeleteAddress = async () => {
+        try {
+            await api.User.deleteAddress();
+            setSuccess('Cím sikeresen törölve!');
+            setHasAddress(false);
+            close();
+            setTimeout(() => setSuccess(null), 5000);
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                let errorMessage = error.response?.data;
+                if(errorMessage === "This user doesn't have an address"){
+                    errorMessage = "Nincsen cím felvéve.";
+                }
+                setError('Cím törlése sikertelen. ' + errorMessage);
+            }
+            close();
+        }
+    };
 
     return(
         <>
+         <Title order={1}>Profilom</Title>
+         <br></br>
     <form onSubmit={form.onSubmit(submit)}>
+    {success && (
+                <Alert 
+                    icon={<IconCheck size="1rem" />}
+                    title="Siker!"
+                    color="green"
+                    mb="md"
+                    withCloseButton
+                    onClose={() => setSuccess(null)}
+                >
+                    {success}
+                </Alert>
+            )}
         {error && (
           <Alert 
             icon={<IconAlertCircle size="1rem" />}
@@ -129,6 +190,33 @@ const UserProfile = () => {
                     Profil szerkesztése
                 </Button>
             )}
+            <br />
+            <Group>
+            <Button 
+                component="button" 
+                type="button" 
+                color="green" 
+                onClick={handleNewAddressClick}
+                loading={loading}
+                leftSection={hasAddress ? <IconHomeCog size="1rem" /> : <IconHomePlus size="1rem" />}
+            >
+                {hasAddress ? "Cím szerkesztése" : "Új cím"}
+            </Button>
+            <br />
+            {hasAddress && (
+                <>
+                    <Modal opened={opened} onClose={close} title="Cím törlés" centered>
+                        <Text>Biztos törölni szeretnéd a címed?</Text>
+                        <Group mt="md">
+                            <Button variant="outline" onClick={close}>Mégse</Button>
+                            <Button color="red" onClick={handleDeleteAddress}>Törlés</Button>
+                        </Group>
+                    </Modal>
+                    <Button color="red" onClick={open} leftSection={<IconHomeX size="1rem" />}>Cím törlése</Button>
+                    
+                </>
+            )}
+            </Group>
     </>
   );
 }
