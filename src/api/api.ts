@@ -8,7 +8,8 @@ import { IScreening } from "../interfaces/IScreening.ts";
 const User ={
     login: (email: string, password: string) => axiosInstance.post<{token: string}>(`/api/Users/login`, {email, password}),
     register: (name : string, email : string, password: string, roleIds: number[], birthDate?: string | null) => axiosInstance.post('/api/Users/register', {name, email, password, birthDate : birthDate || undefined, roleIds}),
-    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate})
+    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate}),
+    updateProfile: (email: string | null, username: string | null) => axiosInstance.put('/api/Users/update-profile', {email, username})
 }
 
 const Films = {

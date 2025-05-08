@@ -1,6 +1,6 @@
 import {useContext, useEffect} from "react";
 import {AuthContext} from "../context/AuthContext.tsx";
-import {emailKeyName, tokenKeyName, roleKeyName, emailTokenKey} from "../constants/constants.ts";
+import {emailKeyName, tokenKeyName, roleKeyName, emailTokenKey, userName} from "../constants/constants.ts";
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import api from "../api/api.ts";
 
@@ -10,7 +10,7 @@ interface CustomJwtPayload extends JwtPayload {
 
 
 const useAuth = () => {
-    const { token, setToken, email, setEmail, roles, setRoles  } = useContext(AuthContext);
+    const { token, setToken, email, setEmail, roles, setRoles, name, setName  } = useContext(AuthContext);
     const isLoggedIn = !!token;
 
     const login = async (email: string, password: string) => {
@@ -32,6 +32,7 @@ const useAuth = () => {
         setToken(null);
         setEmail(null);
         setRoles(null);
+        setName(null);
     }
 
     const loginKata = (token: string) => {
@@ -41,13 +42,18 @@ const useAuth = () => {
         let rolesArray: string[] = decodedToken[roleKeyName];
         localStorage.setItem(emailKeyName, tempEmail); setEmail(tempEmail);
         localStorage.setItem(roleKeyName, JSON.stringify(rolesArray)); setRoles(rolesArray);
+        const decodedName = decodedToken[userName];
+        localStorage.setItem(userName, decodedName); setName(decodedName);
     }
 
     useEffect(() => {
+        const storedName = localStorage.getItem(userName);
+        if (storedName && !name) {
+            setName(storedName);
+        }
+    }, [name, setName]);
 
-    }, []);
-
-    return {login, logout, loginKata, token, email, isLoggedIn, roles};
+    return {login, logout, loginKata, token, email, isLoggedIn, roles, name, setName, setEmail};
 }
 
 export default useAuth;
