@@ -167,6 +167,7 @@ const UserProfile = () => {
       {isEditing && (
                     <Group justify="space-between" mt="md">
                         <Button 
+                            color="red"
                             variant="outline" 
                             leftSection={<IconX size="1rem" />}
                             onClick={() => {
