@@ -1,4 +1,4 @@
-import { Accordion, Button, Text, Title, Group, Box, Tooltip, Modal } from "@mantine/core";
+import { Accordion, Button, Text, Title, Group, Box, Tooltip, Modal, Flex } from "@mantine/core";
 import { IconReceipt, IconTrash, IconArmchair, IconSum, IconCalendar } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import api from "../api/api";
@@ -127,12 +127,18 @@ const Tickets = () => {
                 {items}
             </Accordion>
 
-            <Modal opened={opened} onClose={close} title="Jegy">
-                <div className="app-container">
-                    {loading && <p>Please Wait....</p>}
-                    {img && <img src={img} className="qr-code-image" />}
-                    <p>id: {currentTicketId}</p>
-                </div>
+            <Modal opened={opened} onClose={close} title="Olvassa be az ellenőrzéshez">
+                <Flex
+                    direction={{ base: 'column', sm: 'row' }}
+                    gap={{ base: 'sm', sm: 'lg' }}
+                    justify={{ sm: 'center' }}
+                >
+                    <div className="app-container">
+                        {loading && <p>Please Wait....</p>}
+                        {img && <img src={img} className="qr-code-image" />}
+                        <p>Jegy azonosító: {currentTicketId}</p>
+                    </div>
+                </Flex>
             </Modal>
         </div>
     );
