@@ -1,12 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {Image, Grid, Flex, SimpleGrid, Space, Group } from '@mantine/core';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
 import { IScreening } from '../interfaces/IScreening';
-import ScreeningButton from '../components/FilmScreeningButton'
-import { IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
-
+import FilmDetailContainer from '../components/FilmDetailContainer';
 
 const FilmDetails: React.FC = () => {
   const { id } = useParams();
@@ -22,7 +19,6 @@ const FilmDetails: React.FC = () => {
         console.error('Hiba a film adatainak lekérésekor:', error);
       }
     };
-    
 
     fetchFilm();
   }, [id]);
@@ -33,8 +29,10 @@ const FilmDetails: React.FC = () => {
         if(!film) return;
         
         const response = api.Screening.getScreenings(film.id)
-        const data = await response;
-        setScreening(data.data)
+        const data:IScreening[] = (await response).data;
+        const sortedScreenings = data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+        setScreening(sortedScreenings)
       }
       catch(error)
       {
@@ -46,51 +44,11 @@ const FilmDetails: React.FC = () => {
 
 
   if (!film) {
-    return <div>Betöltés...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <div>
-      <Grid gutter="xs">
-        <Grid.Col span={2.25}>
-          <Image
-              src={`data:image/jpeg;base64,${film.pictureBase64}`}
-             
-              fit="contain"
-              alt={film.title}
-            />
-        </Grid.Col>
-        <Grid.Col span={5}>
-          <Flex
-            mih={5}
-            gap="sm"
-            justify="flex-start"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            <Group><IconMovie size={30}/><h1>{film.title}</h1></Group>
-          </Flex>
-            <Group><IconCategory size={18}/><><b>Genre:</b> {film.genre}</></Group>
-            <Space h="xs"/>
-            <Group><IconUser size={18}/><><b>Director:</b> {film.director}</></Group>
-            <Space h="xs"/>
-            <Group><IconClock size={18}/><><b>Length: </b>{film.length}</></Group>
-            <Space h="xs"/>
-            <Group><IconShield size={18}/><><b>Age rating: </b>{film.ageRating}+</></Group>
-            <Space h="xs"/>
-            <p><b>Description</b></p>
-            <p>{film.description}</p>
-        </Grid.Col>
-      </Grid>
-      <Space h="md" />
-      <h1>Screenings</h1>
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 4, lg: 6 }} spacing="lg" verticalSpacing={{ base: 'md',md : 'md', sm: 'xl' }}>
-        {screening!.map((screening) => (
-          <ScreeningButton key={screening.id} screening={screening} />
-        ))}
-      </SimpleGrid>
-    </div>
+    <FilmDetailContainer film={film} screening={screening!}/>
   );
 };
 

@@ -1,79 +1,64 @@
-import { useEffect, useState } from 'react';
-import { Container, SimpleGrid, Loader, Center, Input, Drawer, Button, CloseButton, Checkbox, Space } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
-import { FilmCard, TrendingFilmCard } from '../components/FilmCard';
-import { useDisclosure } from '@mantine/hooks';
-import { DatePicker } from '@mantine/dates';
-import useDebounce from '../hooks/useDebounce';
+import React, { useEffect, useState } from 'react';
+import { Center, Loader } from '@mantine/core';
+import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
-import '@mantine/carousel/styles.css';
+import { FilmsContainer } from '../components/FilmsContainer';
 
 const Films: React.FC = () => {
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const [datevalue, setDateValue] = useState<string | null>("");
-
+  const [dateValue, setDateValue] = useState<string | null>(null);
+  const [nameValue, setNameValue] = useState('');
+  const [checked, setChecked] = useState(false);
   const [films, setFilms] = useState<IFilm[]>([]);
   const [trendingFilms, setTrendingFilms] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [checked, setChecked] = useState(false);
-  const [nameValue, setInputValue] = useState("");
-  const debouncedNameValue = useDebounce(nameValue, 300);
-    
-  function resetFilter(): void{
-    setInputValue('');
-    setChecked(false);
-    setDateValue('');
-  }
+  const [debouncedNameValue] = useDebouncedValue(nameValue, 300);
 
-  useEffect(() => {      
-    const fetchFilms = async () => {        
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const resetFilter = () => {
+    setNameValue('');
+    setChecked(false);
+    setDateValue(null);
+  };
+
+  useEffect(() => {
+    const fetchFilms = async () => {
+      setLoading(true);
       try {
-        var response;
-        if(datevalue != "" && datevalue != null && checked && debouncedNameValue == ""){ //date picket AND checbox checked AND no name
-            response = api.Films.getFilmOnDate(datevalue);
+        let response;
+        if (dateValue && checked && !debouncedNameValue) {
+          response = await api.Films.getFilmOnDate(dateValue);
+        } else if (dateValue && !checked && !debouncedNameValue) {
+          response = await api.Films.getFilmAfterDate(dateValue);
+        } else if (!dateValue && debouncedNameValue) {
+          response = await api.Films.getFilmByName(debouncedNameValue);
+        } else if (dateValue && debouncedNameValue) {
+          response = await api.Films.getFilmByNameAndDate(dateValue, debouncedNameValue, checked);
+        } else {
+          response = await api.Films.getFilms();
         }
-        else if(datevalue != "" && datevalue != null && !checked && debouncedNameValue == ""){// date picked AND checkebox not picked AND no name
-            response = api.Films.getFilmAfterDate(datevalue);
-        }
-        else if((datevalue == '' || datevalue === null) && debouncedNameValue != ""){//date not picked AND name
-            response = api.Films.getFilmByName(debouncedNameValue); 
-        }
-        else if(datevalue != '' && datevalue != null && debouncedNameValue != ""){//date picked AND name 
-            response = api.Films.getFilmByNameAndDate(datevalue,debouncedNameValue,checked);  
-        }
-        else{
-            response = api.Films.getFilms(); 
-        }
-        
-        const data = await response;
-        
-        setFilms(data.data);
+        setFilms(response.data);
       } catch (error) {
-        console.error('Hiba a filmek lekérésekor:', error);
+        console.error('Error while getting films:', error);
       } finally {
         setLoading(false);
       }
     };
-    const fetchTrendingFilms = async () => {        
+
+    const fetchTrendingFilms = async () => {
       try {
-        const response = api.Films.getTrendingFilms(); 
-        const data = await response;
-        
-        setTrendingFilms(data.data);
-        console.log(trendingFilms);
-        
+        const response = await api.Films.getTrendingFilms();
+        setTrendingFilms(response.data);
       } catch (error) {
-        console.error('Hiba a filmek lekérésekor:', error);
-      } finally {
-        setLoading(false);
+        console.error('Error while getting trending films:', error);
       }
     };
-    fetchTrendingFilms()
+
+    fetchTrendingFilms();
     fetchFilms();
-  }, [datevalue,debouncedNameValue,checked]);
+  }, [dateValue, debouncedNameValue, checked]);
 
   if (loading) {
     return (
@@ -83,72 +68,21 @@ const Films: React.FC = () => {
     );
   }
 
-  const slides = trendingFilms.map((trendingFilms) => (
-    <Carousel.Slide key={trendingFilms.id}>
-      <TrendingFilmCard key={trendingFilms.id} film={trendingFilms} />
-    </Carousel.Slide>
-  ));
-
   return (
-    <Container fluid>
-      <Drawer opened={opened} onClose={close} title="Filter" size="xs">
-        <Space h="xl" />
-        Date
-        <Space h="xs" />
-        <DatePicker allowDeselect value={datevalue} onChange={setDateValue} />
-        <Space h="xs" />
-
-        <Checkbox
-            checked={checked}
-            onChange={(event) => setChecked(event.currentTarget.checked)}
-            label="Only on selected day"
-        />
-        
-        <Space h="xl" />
-        Name
-        <Input
-            placeholder="Film name"
-            value={nameValue}
-            onChange={(event) => setInputValue(event.currentTarget.value)}
-            rightSectionPointerEvents="all"
-            mt="md"
-            rightSection={
-            <CloseButton
-                aria-label="Film name"
-                onClick={() => setInputValue('')}
-                style={{ display: nameValue ? undefined : 'none' }}
-            />
-            }
-        />
-
-        <Space h="xs" />
-        <Button variant="default" onClick={resetFilter}>
-            Reset filter
-        </Button>
-      </Drawer>
-
-      <Button variant="default" onClick={open}>
-        Filter
-      </Button>
-            
-      <h1>Trending movies</h1>
-
-      <Carousel
-        slideSize={{ base: '100%', sm: '33.3%' }}
-        slideGap={{ base: 'xl', sm: 5 }}
-        emblaOptions={{ loop: true, align: 'start' }}
-      >
-        {slides}
-      </Carousel>
-
-      <h1>Films</h1>
-
-      <SimpleGrid cols={5} spacing="lg">
-        {films.map((film) => (
-          <FilmCard key={film.id} film={film} />
-        ))}
-      </SimpleGrid>
-    </Container>
+    <FilmsContainer
+      films={films}
+      trendingFilms={trendingFilms}
+      dateValue={dateValue}
+      setDateValue={setDateValue}
+      nameValue={nameValue}
+      setNameValue={setNameValue}
+      checked={checked}
+      setChecked={setChecked}
+      resetFilter={resetFilter}
+      opened={opened}
+      open={open}
+      close={close}
+    />
   );
 };
 
