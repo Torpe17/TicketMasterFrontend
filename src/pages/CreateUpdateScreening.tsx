@@ -71,19 +71,22 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                     try {
                         if (isCreate) {
                             console.log(values.date);
-                            console.log(values.date.toISOString());
+                            console.log(new Date(values.date.toString().replace(" ", "T")).toISOString().replace("Z", ""));
                             
                             await api.Screening.createScreening({
                                 filmId: Number(film?.id),
                                 roomId: Number(values.roomId),
-                                date: values.date.toISOString(),
+                                date: new Date(values.date.toString().replace(" ", "T")).toISOString().replace("Z", ""), 
                                 defaultTicketPrice: Number(values.defaultTicketPrice)
                             });
                         } else {
+                            console.log(typeof(values.date), values.date);
+                            console.log(new Date(values.date.toString().replace(" ", "T")).toISOString().replace("Z", ""));
+                            
                             await api.Screening.updateScreening(String(id), {
                                 filmId: Number(film?.id),
                                 roomId: Number(values.roomId),
-                                date: values.date.toISOString(), 
+                                date: new Date(values.date.toString().replace(" ", "T")).toISOString().replace("Z", ""), 
                                 defaultTicketPrice: Number(values.defaultTicketPrice)
                             })
                         }

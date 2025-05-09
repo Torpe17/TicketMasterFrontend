@@ -1329,6 +1329,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"countries-list@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "countries-list@npm:3.1.1"
+  checksum: 10c0/26734d5927ee9dafa30e4da214b6ab7ecf7cdd93516e5bb077d6fdb1f9f37b4fd8698987b0062c1f3b0c95d18fe947f941ef0ab8c3cc486ef33f1c3dca2678b7
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.6":
   version: 7.0.6
   resolution: "cross-spawn@npm:7.0.6"
@@ -1353,6 +1360,13 @@ __metadata:
   version: 3.1.3
   resolution: "csstype@npm:3.1.3"
   checksum: 10c0/80c089d6f7e0c5b2bd83cf0539ab41474198579584fa10d86d0cafe0642202343cbc119e076a0b1aece191989477081415d66c9fefbf3c957fc2fc4b7009f248
+  languageName: node
+  linkType: hard
+
+"datejs@npm:^1.0.0-rc3":
+  version: 1.0.0-rc3
+  resolution: "datejs@npm:1.0.0-rc3"
+  checksum: 10c0/85f9a6cc0d69be87cb2299d08d04f4c20e40c2ebcb76da0583e8dde3abb6ce1bf8d83f344801fd38f168efa0b568fec65f6f277d3d89862b97bcf48bd358d765
   languageName: node
   linkType: hard
 
@@ -1393,6 +1407,13 @@ __metadata:
   version: 1.1.0
   resolution: "detect-node-es@npm:1.1.0"
   checksum: 10c0/e562f00de23f10c27d7119e1af0e7388407eb4b06596a25f6d79a360094a109ff285de317f02b090faae093d314cf6e73ac3214f8a5bb3a0def5bece94557fbe
+  languageName: node
+  linkType: hard
+
+"diacritics@npm:1.3.0":
+  version: 1.3.0
+  resolution: "diacritics@npm:1.3.0"
+  checksum: 10c0/bc99c3d2e64315b1830f1573eafe1f7b06fd5dbc9687f35ea8e2e25ce8618d1444d0a2c8313b98467b0aff1d0ee35b8f9f67ef214e56e810b37da3cdb29785ac
   languageName: node
   linkType: hard
 
@@ -2110,6 +2131,15 @@ __metadata:
     agent-base: "npm:^7.1.2"
     debug: "npm:4"
   checksum: 10c0/f729219bc735edb621fa30e6e84e60ee5d00802b8247aac0d7b79b0bd6d4b3294737a337b93b86a0bd9e68099d031858a39260c976dc14cdbba238ba1f8779ac
+  languageName: node
+  linkType: hard
+
+"i18n-iso-countries@npm:^7.14.0":
+  version: 7.14.0
+  resolution: "i18n-iso-countries@npm:7.14.0"
+  dependencies:
+    diacritics: "npm:1.3.0"
+  checksum: 10c0/048efe0c95feb6666a72cb0918d6edcb6a392787b2998eefe7e42d19bf35ac27a02ad61efd64857399d7938dcf3e4c7710f622f7e6c8de9628cb4e4dd5534830
   languageName: node
   linkType: hard
 
@@ -3339,10 +3369,13 @@ __metadata:
     "@typescript-eslint/parser": "npm:^7.13.1"
     "@vitejs/plugin-react": "npm:^4.3.1"
     axios: "npm:^1.9.0"
+    countries-list: "npm:^3.1.1"
+    datejs: "npm:^1.0.0-rc3"
     dayjs: "npm:^1.11.13"
     eslint: "npm:^8.57.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.7"
+    i18n-iso-countries: "npm:^7.14.0"
     jwt-decode: "npm:^4.0.0"
     postcss: "npm:^8.5.3"
     postcss-preset-mantine: "npm:^1.17.0"

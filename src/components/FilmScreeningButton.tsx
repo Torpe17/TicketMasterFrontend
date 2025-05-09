@@ -13,7 +13,7 @@ const ScreeningButton: React.FC<ScreeningButtonProps> = ({ screening }) => {
       <Button
         variant="gradient"
         gradient={{ from: 'yellow', to: 'orange', deg: 90 }}
-        
+        onClick={() => navigate(`../films`)}
       >
         {dayjs(screening.date).format('YYYY.MM.D. HH:mm')}  
       </Button>

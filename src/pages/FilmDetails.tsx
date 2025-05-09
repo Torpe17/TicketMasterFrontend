@@ -85,7 +85,7 @@ const FilmDetails: React.FC = () => {
       </Grid>
       <Space h="md" />
       <h1>Screenings</h1>
-      <SimpleGrid cols={8} spacing="lg">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 4, lg: 6 }} spacing="lg" verticalSpacing={{ base: 'md',md : 'md', sm: 'xl' }}>
         {screening!.map((screening) => (
           <ScreeningButton key={screening.id} screening={screening} />
         ))}
