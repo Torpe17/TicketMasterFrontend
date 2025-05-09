@@ -6,4 +6,5 @@ export interface IFilm{
     length: number;
     description: string;
     ageRating: number;
+    pictureBase64: string;
 }

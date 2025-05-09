@@ -5,23 +5,16 @@ import FilmCard from '../components/FilmCard';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import useDebounce from '../hooks/useDebounce';
+import api from '../api/api';
+import { IFilm } from '../interfaces/IFilm';
 
-interface Film {
-  id: string;
-  title: string;
-  description: string;
-  genre: string;
-  length: number,
-  ageRating: number
-  pictureBase64?: string
-}
 
 const Films: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [datevalue, setDateValue] = useState<string | null>("");
 
-  const [films, setFilms] = useState<Film[]>([]);
+  const [films, setFilms] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [checked, setChecked] = useState(false);
@@ -40,24 +33,24 @@ const Films: React.FC = () => {
       try {
         var response;
         if(datevalue != "" && datevalue != null && checked && debouncedNameValue == ""){ //date picket AND checbox checked AND no name
-            response  = await fetch(`https://localhost:7293/api/Film/on/${datevalue}`);
+            response = api.Films.getFilmOnDate(datevalue);
         }
         else if(datevalue != "" && datevalue != null && !checked && debouncedNameValue == ""){// date picked AND checkebox not picked AND no name
-            response  = await fetch(`https://localhost:7293/api/Film/after/${datevalue}`);
+            response = api.Films.getFilmAfterDate(datevalue);
         }
-        else if((datevalue == '' || datevalue === null) && debouncedNameValue != ""){
-            response  = await fetch(`https://localhost:7293/api/Film/name?name=${debouncedNameValue}`); //date not picked AND name
+        else if((datevalue == '' || datevalue === null) && debouncedNameValue != ""){//date not picked AND name
+            response = api.Films.getFilmByName(debouncedNameValue); 
         }
-        else if(datevalue != '' && datevalue != null && debouncedNameValue != ""){
-            response  = await fetch(`https://localhost:7293/api/Film/NameAndDate?name=${debouncedNameValue}&date=${datevalue}&onDay=${checked}`);//date picked AND name 
+        else if(datevalue != '' && datevalue != null && debouncedNameValue != ""){//date picked AND name 
+            response = api.Films.getFilmByNameAndDate(datevalue,debouncedNameValue,checked);  
         }
         else{
-            response = await fetch('https://localhost:7293/api/Film');
+            response = api.Films.getFilms(); 
         }
         
-        const data = await response.json();
+        const data = await response;
         
-        setFilms(data);
+        setFilms(data.data);
       } catch (error) {
         console.error('Hiba a filmek lekérésekor:', error);
       } finally {

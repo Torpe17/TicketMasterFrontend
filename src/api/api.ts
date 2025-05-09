@@ -16,6 +16,10 @@ const RegisterPost = {
 const Films = {
     getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),
     getFilm: (id: string) => axiosInstance.get<IFilm>(`/api/film/${id}`),
+    getFilmOnDate: (date: string) => axiosInstance.get<IFilm[]>(`/api/film/on/${date}`),
+    getFilmAfterDate: (date: string) => axiosInstance.get<IFilm[]>(`/api/film/after/${date}`),
+    getFilmByName: (name: string) => axiosInstance.get<IFilm[]>(`/api/film/name?name=${name}`),
+    getFilmByNameAndDate: (date: string, name: string, onDay:boolean) => axiosInstance.get<IFilm[]>(`/api/film/NameAndDate?name=${name}&date=${date}&onDay=${onDay}`),
     createFilm : (param: ICreateFilm) => axiosInstance.post<IFilm>(`/api/film`, param),
     updateFilm: (id: string, param2: {
         title: string;

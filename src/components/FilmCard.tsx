@@ -1,18 +1,9 @@
 import { Card, Text, Badge, Button, Group, Image, Space} from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-
-interface Film {
-    id: string;
-    title: string;
-    description: string;
-    genre: string;
-    length: number,
-    ageRating: number
-    pictureBase64? : string
-}
+import { IFilm } from '../interfaces/IFilm';
 
 interface FilmCardProps {
-  film: Film;
+  film: IFilm;
 }
 
 const FilmCard: React.FC<FilmCardProps> = ({ film }) => {

@@ -597,21 +597,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/dates@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@mantine/dates@npm:8.0.0"
-  dependencies:
-    clsx: "npm:^2.1.1"
-  peerDependencies:
-    "@mantine/core": 8.0.0
-    "@mantine/hooks": 8.0.0
-    dayjs: ">=1.0.0"
-    react: ^18.x || ^19.x
-    react-dom: ^18.x || ^19.x
-  checksum: 10c0/e0afe25de3e31a8eb4a12498771514e69d4088105876831ce815043f4baba21a9103c7bd0a3e7ba2159edc4fa7b3e1a1d7c2d0607a88c20752c68476c32ac91c
-  languageName: node
-  linkType: hard
-
 "@mantine/form@npm:^7.17.2":
   version: 7.17.7
   resolution: "@mantine/form@npm:7.17.7"

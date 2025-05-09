@@ -38,7 +38,7 @@ export const routes = [
         isPrivate: true
     },
     {
-        path: "app/films/:id",
+        path: "films/:id",
         component: <FilmDetails />,
         isPrivate: true
     },
