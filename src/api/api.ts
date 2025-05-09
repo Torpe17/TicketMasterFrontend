@@ -1,16 +1,19 @@
+import { IPurchase } from "../interfaces/IPurchase"
 import axiosInstance from "./axios.config.ts";
 import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
 import { IFilm } from './../interfaces/IFilm.ts';
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IScreening } from "../interfaces/IScreening.ts";
 
-
-const Auth = {
-    login: (email: string, password: string) => axiosInstance.post<{token: string}>(`/api/Users/login`, {email, password})
-}
-
-const RegisterPost = {
-    register: (name : string, email : string, password: string, roleIds: number[], birthDate?: string | null) => axiosInstance.post('/api/Users/register', {name, email, password, birthDate : birthDate || undefined, roleIds})
+const User ={
+    login: (email: string, password: string) => axiosInstance.post<{token: string}>(`/api/Users/login`, {email, password}),
+    register: (name : string, email : string, password: string, roleIds: number[], birthDate?: string | null) => axiosInstance.post('/api/Users/register', {name, email, password, birthDate : birthDate || undefined, roleIds}),
+    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate}),
+    updateProfile: (email: string | null, username: string | null) => axiosInstance.put('/api/Users/update-profile', {email, username}),
+    createAddress: (country: string, county: string, zipcode: number, city: string, street: string, housenumber: number, floor: string | null) => axiosInstance.post('/api/Users/address', {country, county, zipcode, city, street, housenumber, floor}),
+    deleteAddress: () => axiosInstance.delete('/api/Users/address'),
+    getAddress: () => axiosInstance.get<IAddress>('/api/Users/address'),
+    updateAddress: (setFloor: boolean, country: string | null, county: string | null, zipcode: number | null, city: string | null, street: string | null, housenumber: number | null, floor: string | null) => axiosInstance.put('/api/Users/address', {country, county, zipcode, city, street,  floor, setFloor,housenumber})
 }
 
 const Films = {
@@ -41,10 +44,6 @@ const Screening = {
     deleteScreening: (id: string) => axiosInstance.delete<void>(`/api/screenings/${id}`)
 }
 
-const UpdatePasswordPut = {
-    updatePassword: (email: string, password: string, birthDate?: string | null) => axiosInstance.put('/api/Users/update-password', {email, password, birthDate})
-}
-
 const Tickets = {
     validateTicket: (id: number) => axiosInstance.put<void>(`/api/tickets/${id}/validate`)
 }
@@ -52,6 +51,11 @@ const Room = {
     getRooms: () => axiosInstance.get<IRoom[]>(`/api/rooms`),
 }
 
-const api = {Films, Auth, Screening, Tickets, RegisterPost, UpdatePasswordPut, Room};
+const Purchases = {
+    getMyPurchases: () => axiosInstance.get<IPurchase[]>('/api/myPurchases'),
+    deletePurchase: (purchaseId: number) => axiosInstance.delete(`/api/purchase/${purchaseId}`)
+}
+
+const api = {Films, User, Screening, Tickets, Room, Purchases};
 
 export default api;
