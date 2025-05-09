@@ -564,6 +564,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/carousel@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@mantine/carousel@npm:8.0.0"
+  peerDependencies:
+    "@mantine/core": 8.0.0
+    "@mantine/hooks": 8.0.0
+    embla-carousel: ">=8.0.0"
+    embla-carousel-react: ">=8.0.0"
+    react: ^18.x || ^19.x
+    react-dom: ^18.x || ^19.x
+  checksum: 10c0/363fc3d9b20bf8dfc0aa1466b402a07e0dcc4ec202f7d70eb338149d3144acb5b29a07e9467a3eb3631d0608de606d8fce0b261acf2f53cba3e922a16473fb59
+  languageName: node
+  linkType: hard
+
 "@mantine/core@npm:^8.0.0":
   version: 8.0.0
   resolution: "@mantine/core@npm:8.0.0"
@@ -1457,6 +1471,34 @@ __metadata:
   version: 1.5.150
   resolution: "electron-to-chromium@npm:1.5.150"
   checksum: 10c0/898c232d5678a1e50f254b93902042e7287c6435ec8adab2a0f35e9f11f343eac901b799babaac92ec455a36f35ac0321847a391470629dd0060a681f850797d
+  languageName: node
+  linkType: hard
+
+"embla-carousel-react@npm:8.5.2":
+  version: 8.5.2
+  resolution: "embla-carousel-react@npm:8.5.2"
+  dependencies:
+    embla-carousel: "npm:8.5.2"
+    embla-carousel-reactive-utils: "npm:8.5.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10c0/8e55a2bc562aed2c55d9debf2523dbd4f2524b0ecea62cf51f8f096ed993af608890084b5f35e1694a8aada087602a12cc4b8a68aeee12b4a33cc8361636c63d
+  languageName: node
+  linkType: hard
+
+"embla-carousel-reactive-utils@npm:8.5.2":
+  version: 8.5.2
+  resolution: "embla-carousel-reactive-utils@npm:8.5.2"
+  peerDependencies:
+    embla-carousel: 8.5.2
+  checksum: 10c0/aa4870539d9090f9ac02338c3ca3e1710a6f0e6890cd2f6fbf6afcc1eeac48192406f92bf042fe9429cc61709338124baf1514c75227a7a16b19b83e9f376274
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:8.5.2":
+  version: 8.5.2
+  resolution: "embla-carousel@npm:8.5.2"
+  checksum: 10c0/4bbb04c08616d560a7b47b1897794a077baa5aa27642420b35b3be58ab7b0dc000ef073b6e47d0029b0791c046e0cd39d295704faecb1957d2c315df51be58e6
   languageName: node
   linkType: hard
 
@@ -3358,6 +3400,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ticket-master@workspace:."
   dependencies:
+    "@mantine/carousel": "npm:^8.0.0"
     "@mantine/core": "npm:^8.0.0"
     "@mantine/dates": "npm:^8.0.0"
     "@mantine/form": "npm:^7.17.2"
@@ -3372,6 +3415,8 @@ __metadata:
     countries-list: "npm:^3.1.1"
     datejs: "npm:^1.0.0-rc3"
     dayjs: "npm:^1.11.13"
+    embla-carousel: "npm:8.5.2"
+    embla-carousel-react: "npm:8.5.2"
     eslint: "npm:^8.57.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.7"

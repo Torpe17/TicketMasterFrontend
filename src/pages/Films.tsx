@@ -1,13 +1,13 @@
-// src/pages/Films.tsx
 import { useEffect, useState } from 'react';
 import { Container, SimpleGrid, Loader, Center, Input, Drawer, Button, CloseButton, Checkbox, Space } from '@mantine/core';
-import FilmCard from '../components/FilmCard';
+import { Carousel } from '@mantine/carousel';
+import { FilmCard, TrendingFilmCard } from '../components/FilmCard';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import useDebounce from '../hooks/useDebounce';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
-
+import '@mantine/carousel/styles.css';
 
 const Films: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -15,13 +15,13 @@ const Films: React.FC = () => {
   const [datevalue, setDateValue] = useState<string | null>("");
 
   const [films, setFilms] = useState<IFilm[]>([]);
+  const [trendingFilms, setTrendingFilms] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [checked, setChecked] = useState(false);
   const [nameValue, setInputValue] = useState("");
-
   const debouncedNameValue = useDebounce(nameValue, 300);
-
+    
   function resetFilter(): void{
     setInputValue('');
     setChecked(false);
@@ -57,7 +57,21 @@ const Films: React.FC = () => {
         setLoading(false);
       }
     };
-
+    const fetchTrendingFilms = async () => {        
+      try {
+        const response = api.Films.getTrendingFilms(); 
+        const data = await response;
+        
+        setTrendingFilms(data.data);
+        console.log(trendingFilms);
+        
+      } catch (error) {
+        console.error('Hiba a filmek lekérésekor:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTrendingFilms()
     fetchFilms();
   }, [datevalue,debouncedNameValue,checked]);
 
@@ -68,6 +82,12 @@ const Films: React.FC = () => {
       </Center>
     );
   }
+
+  const slides = trendingFilms.map((trendingFilms) => (
+    <Carousel.Slide key={trendingFilms.id}>
+      <TrendingFilmCard key={trendingFilms.id} film={trendingFilms} />
+    </Carousel.Slide>
+  ));
 
   return (
     <Container fluid>
@@ -110,8 +130,19 @@ const Films: React.FC = () => {
       <Button variant="default" onClick={open}>
         Filter
       </Button>
-      <Space h="xl" />
-     
+            
+      <h1>Trending movies</h1>
+
+      <Carousel
+        slideSize={{ base: '100%', sm: '33.3%' }}
+        slideGap={{ base: 'xl', sm: 5 }}
+        emblaOptions={{ loop: true, align: 'start' }}
+      >
+        {slides}
+      </Carousel>
+
+      <h1>Films</h1>
+
       <SimpleGrid cols={5} spacing="lg">
         {films.map((film) => (
           <FilmCard key={film.id} film={film} />

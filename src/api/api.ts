@@ -18,6 +18,7 @@ const User ={
 
 const Films = {
     getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),
+    getTrendingFilms: () => axiosInstance.get<IFilm[]>(`/api/film/trending`),
     getFilm: (id: string) => axiosInstance.get<IFilm>(`/api/film/${id}`),
     getFilmOnDate: (date: string) => axiosInstance.get<IFilm[]>(`/api/film/on/${date}`),
     getFilmAfterDate: (date: string) => axiosInstance.get<IFilm[]>(`/api/film/after/${date}`),
