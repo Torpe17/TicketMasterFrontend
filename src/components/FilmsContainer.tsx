@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   Container,
   SimpleGrid,
@@ -14,6 +14,8 @@ import { DatePicker } from '@mantine/dates';
 import { IFilm } from '../interfaces/IFilm';
 import { FilmCard, TrendingFilmCard } from './FilmCard';
 import '@mantine/carousel/styles.css';
+import Autoplay from 'embla-carousel-autoplay';
+
 
 interface FilmsContainerProps {
   films: IFilm[];
@@ -49,6 +51,8 @@ export const FilmsContainer: React.FC<FilmsContainerProps> = ({
       <TrendingFilmCard film={film} />
     </Carousel.Slide>
   ));
+
+const autoplay = useRef(Autoplay({ delay: 5000 }));
 
   return (
     <Container fluid>
@@ -94,6 +98,9 @@ export const FilmsContainer: React.FC<FilmsContainerProps> = ({
         slideSize={{ base: '100%', sm: '33.3%' }}
         slideGap={{ base: 'xl', sm: 5 }}
         emblaOptions={{ loop: true, align: 'start' }}
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={() => autoplay.current.play()}
       >
         {slides}
       </Carousel>
