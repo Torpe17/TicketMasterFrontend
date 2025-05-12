@@ -4,6 +4,7 @@ import { ICreateScreening } from "../interfaces/ICreateScreening.ts";
 import { IFilm } from './../interfaces/IFilm.ts';
 import { IRoom } from "../interfaces/IRoom.ts";
 import { IScreening } from "../interfaces/IScreening.ts";
+import { ITicket } from "../interfaces/ITicket.ts";
 
 const User ={
     login: (email: string, password: string) => axiosInstance.post<{token: string}>(`/api/Users/login`, {email, password}),
@@ -46,15 +47,18 @@ const Screening = {
 }
 
 const Tickets = {
+    getTicketsByScreeningId: (screeningId: number) => axiosInstance.get<ITicket[]>(`/api/tickets/screening/${screeningId}`),
     validateTicket: (id: number) => axiosInstance.put<void>(`/api/tickets/${id}/validate`)
 }
 const Room = {
     getRooms: () => axiosInstance.get<IRoom[]>(`/api/rooms`),
+    getRoom: (id: number) => axiosInstance.get<IRoom>(`/api/room/${id}`)
 }
 
 const Purchases = {
     getMyPurchases: () => axiosInstance.get<IPurchase[]>('/api/myPurchases'),
-    deletePurchase: (purchaseId: number) => axiosInstance.delete(`/api/purchase/${purchaseId}`)
+    deletePurchase: (purchaseId: number) => axiosInstance.delete(`/api/purchase/${purchaseId}`),
+    createPurchase: (purchaseDetails: ICreatePurchase) => axiosInstance.post(`/api/purchase`)
 }
 
 const api = {Films, User, Screening, Tickets, Room, Purchases};
