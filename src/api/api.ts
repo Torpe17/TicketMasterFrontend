@@ -34,6 +34,8 @@ const Films = {
         description: string;
         ageRating: number | null;
         setAgeRating: boolean;
+        pictureBase64: string | null;
+        removePicture: boolean;
     }) => axiosInstance.put<IFilm>(`/api/film/${id}`, param2),
     deleteFilm: (id: string) => axiosInstance.delete<void>(`/api/film/${id}`)
 }

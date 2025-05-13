@@ -5,4 +5,5 @@ interface ICreateFilm {
     length: number;
     description: string;
     ageRating: number | null;
+    pictureBytes: string | null;
 }
