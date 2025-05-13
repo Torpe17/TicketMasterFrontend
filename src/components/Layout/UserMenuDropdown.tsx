@@ -14,7 +14,7 @@ const UserMenuDropdown = () => {
     const items = [
         {
             url: 'profile',
-            label: "Profil",
+            label: "Profile",
             onClick: () => {
                 navigate('profile');
             },
@@ -22,7 +22,7 @@ const UserMenuDropdown = () => {
         },
         {
             url: 'logout',
-            label: "Kijelentkezés",
+            label: "Logout",
             onClick: () => {logout()},
             icon: IconLogout
         }

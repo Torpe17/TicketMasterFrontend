@@ -49,19 +49,19 @@ export function NavbarMinimal({toggle}: any) {
     const menuItems = [
         {
             icon: IconHome,
-            label: "Kezdőlap",
+            label: "Dashboard",
             url: "dashboard",
         },
         {
             icon: IconHome,
-            label: "Filmek",
+            label: "Movies",
             url: "films",
         }
     ];
     if (roles?.includes("Cashier")) {
         menuItems.push({
             icon: IconGridScan,
-            label: "Jegy ellenőrzés",
+            label: "Ticket inspection",
             url: "ticket-inspection",
         });
     }
@@ -69,7 +69,7 @@ export function NavbarMinimal({toggle}: any) {
     if (roles?.includes("Customer")) {
         menuItems.push({
             icon: IconTicket,
-            label: "Jegyek",
+            label: "Tickets",
             url: "tickets"
         })
     }
@@ -77,7 +77,7 @@ export function NavbarMinimal({toggle}: any) {
     if (roles?.includes("Admin")) {
         menuItems.push({
             icon: IconDatabaseEdit,
-            label: "Admin oldal",
+            label: "Manage data",
             url: "adminpage",
         });
     }
@@ -118,14 +118,14 @@ export function NavbarMinimal({toggle}: any) {
                         <NavbarLink
                             active={location.pathname === '/profile'}
                             icon={IconUserCircle}
-                            label="Profil"
+                            label="Profile"
                             onClick={() => {
                                 navigate("profile");
                                 toggle();
                             }} color="grape" />
                         <NavbarLink
                             icon={IconLogout}
-                            label={"Kijelentkezés"}
+                            label={"Logout"}
                             onClick={onLogout} color="grape"/>
 
                     </div>
@@ -134,7 +134,7 @@ export function NavbarMinimal({toggle}: any) {
             {!isLoggedIn&&(
                 <NavbarLink
                             icon={IconLogout}
-                            label={"Kijelentkezés"}
+                            label={"Login"}
                             onClick={() => navigate(`../login`)}
                             color="grape"/>
             )}
