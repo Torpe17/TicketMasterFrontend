@@ -19,8 +19,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, error, onClearError }) =
       password: '',
     },
     validate: {
-      email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Érvénytelen e-mail cím'),
-      password: (val: string) => (val.length <= 6 ? 'A jelszónak 6 karakter hosszúnak kell lennie.' : null),
+      email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Invalid e-mail address'),
+      password: (val: string) => (val.length <= 6 ? 'The password must be at least 6 characters.' : null),
     },
   });
 
@@ -46,7 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, error, onClearError }) =
           )}
           <TextInput
             required
-            label="E-mail cím"
+            label="E-mail address"
             placeholder="hello@mantine.dev"
             radius="md"
             {...form.getInputProps('email')}
@@ -54,8 +54,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, error, onClearError }) =
 
           <PasswordInput
             required
-            label="Jelszó"
-            placeholder="Jelszavad"
+            label="Password"
+            placeholder="Password"
             radius="md"
             {...form.getInputProps('password')}
           />
@@ -63,22 +63,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, error, onClearError }) =
 
         <Group justify="flex-end" mt="xl">
           <Anchor component="button" type="button" c="dimmed" onClick={() => navigate('/forgot')} size="xs">
-            Elfelejtetted a jelszavad?
+            Forgot your password?
           </Anchor>
         </Group>
         
         <Group justify="center" mt="xl">
           <Button type="submit" radius="xl" fullWidth>
-            Bejelentkezés
+            Login
+          </Button>
+          <Button  radius="xl" fullWidth onClick={() => navigate('/films')}>
+            Continue as guest
           </Button>
         </Group>
         
         <Divider my="lg" />
         
         <Group justify="center" gap="xs">
-          <Text>Még nincs fiókod?</Text>
+          <Text>No account?</Text>
           <Anchor component="button" type="button" onClick={() => navigate('/register')}>
-            Regisztráció
+            Register
           </Anchor>
         </Group>
       </form>

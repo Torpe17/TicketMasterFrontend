@@ -99,7 +99,7 @@ const navigate = useNavigate();
       )}
       {!isLoggedIn&&(
         <Button variant="default" onClick={() => navigate(`../login`)}>
-          Log in
+          Login
         </Button>
       )}
 
