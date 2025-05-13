@@ -16,7 +16,7 @@ const Register = () => {
   birthDate: Date | null;
 }) => {
   try {
-    const response = await api.User.register(
+    await api.User.register(
       values.name,
       values.email,
       values.password,
