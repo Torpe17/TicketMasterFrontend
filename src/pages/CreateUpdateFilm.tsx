@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Checkbox, Group, NumberInput, TextInput } from "@mantine/core";
+import { Alert, Button, Card, Checkbox, Group, NumberInput, TextInput, FileInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import api from "../api/api.ts";
@@ -14,9 +14,32 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
     const navigate = useNavigate();
     const [alertVisible, setAlertVisible] = useState(false);
 
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [base64Image, setBase64Image] = useState<string | null>(null);
+
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setShowAgeRating(event.currentTarget.checked);
     };
+
+    const handleImageUpload = (file: File | null) => {
+        setImageFile(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const result = reader.result as string;
+                const base64String = result.split(',')[1];
+                setBase64Image(base64String);
+            };
+            reader.onerror = (error) => {
+                console.error("Error converting image:", error);
+                setAlertVisible(true);
+            };
+        } else {
+            setBase64Image(null);
+        }
+    };
+
 
     const form = useForm({
         mode: "uncontrolled",
@@ -71,6 +94,7 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                                 length: Number(values.length),
                                 description: values.description,
                                 ageRating: Number(values.ageRating),
+                                pictureBytes: base64Image
                             });
                         } else {
                             await api.Films.updateFilm(String(id), {
@@ -140,6 +164,14 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                         {...form.getInputProps("ageRating")}
                     />
                 )}
+
+                <FileInput
+                    accept="image/png,image/jpeg,image/jpg"
+                    clearable
+                    label="Film Poster"
+                    placeholder="Your Poster Image Here"
+                    onChange={handleImageUpload}
+                />
 
                 <Group justify="flex-end" mt="md">
                     <Button type="submit">Mentés</Button>
