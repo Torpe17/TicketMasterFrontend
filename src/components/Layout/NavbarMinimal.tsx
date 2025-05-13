@@ -6,7 +6,8 @@ import {
     IconHome,
     IconDatabaseEdit,
     IconGridScan,
-    IconTicket
+    IconTicket,
+    IconMovie
 } from "@tabler/icons-react";
 import classes from "./NavbarMinimalColored.module.css";
 import {useNavigate} from "react-router-dom";
@@ -53,7 +54,7 @@ export function NavbarMinimal({toggle}: any) {
             url: "dashboard",
         },
         {
-            icon: IconHome,
+            icon: IconMovie,
             label: "Movies",
             url: "films",
         }

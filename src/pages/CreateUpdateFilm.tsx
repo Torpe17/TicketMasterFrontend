@@ -102,7 +102,7 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                                 length: Number(values.length),
                                 description: values.description,
                                 ageRating: Number(values.ageRating),
-                                pictureBytes: base64Image == "0x" ? null : base64Image
+                                pictureBytes: base64Image == null ? null : base64Image
                             });
                         } else {
                             const cur = await api.Films.getFilm(String(id));
