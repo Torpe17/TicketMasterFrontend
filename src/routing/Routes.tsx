@@ -57,8 +57,17 @@ export const routes = [
         isPrivate: true
     },
     {
-        path: "screening/:id",
+        path: "screening/:id/purchase",
         component: <ScreeningDetails />,
+        isPrivate: true
+    },
+    {
+        path: "screening/:id/purchase-for-user",
+        component: (
+            <RequireCashier>
+              <ScreeningDetails />
+            </RequireCashier>
+          ),
         isPrivate: true
     },
     {

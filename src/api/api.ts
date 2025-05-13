@@ -58,7 +58,7 @@ const Room = {
 const Purchases = {
     getMyPurchases: () => axiosInstance.get<IPurchase[]>('/api/myPurchases'),
     deletePurchase: (purchaseId: number) => axiosInstance.delete(`/api/purchase/${purchaseId}`),
-    createPurchase: (purchaseDetails: ICreatePurchase) => axiosInstance.post(`/api/purchase`)
+    createPurchase: (purchaseDetails: ICreatePurchaseUser) => axiosInstance.post(`/api/purchase`, purchaseDetails)
 }
 
 const api = {Films, User, Screening, Tickets, Room, Purchases};
