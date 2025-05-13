@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/auth/RegisterForm";
 import api from "../api/api";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";

@@ -118,7 +118,7 @@ const ScreeningDetails = () => {
             console.log(purchaseData);
 
             if (!isLoggedIn) {
-                console.log('Guest todo');
+                console.log('Guest modal');
                 setAdditionalModalOpen(true);
             }
             else{
@@ -126,7 +126,7 @@ const ScreeningDetails = () => {
                     throw new Error("user logged in, but role is null");
                 }
                 if (roles.includes('Cashier')) {
-                    console.log('Cashier todo');
+                    console.log('Cashier modal');
                     setAdditionalModalOpen(true);
                 }
                 else if (roles.includes('Customer')) {

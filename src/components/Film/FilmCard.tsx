@@ -9,10 +9,6 @@ interface FilmCardProps {
 
 export const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
   const navigate = useNavigate();
-  console.log("film "+film.title+": ");
-  
-console.log(film.pictureBase64);
-
   return (
     <Card
       shadow="sm"
