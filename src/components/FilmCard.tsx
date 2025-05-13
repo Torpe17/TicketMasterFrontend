@@ -9,6 +9,10 @@ interface FilmCardProps {
 
 export const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
   const navigate = useNavigate();
+  console.log("film "+film.title+": ");
+  
+console.log(film.pictureBase64);
+
   return (
     <Card
       shadow="sm"
@@ -20,7 +24,7 @@ export const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
     >
       <Card.Section>
         <Image
-          src={film.pictureBase64 != null ? `data:image/jpeg;base64,${film.pictureBase64}` : '/noposter.jpg'}
+          src={(film.pictureBase64 == null || film.pictureBase64 === "" ) ? '/noposter.jpg':  `data:image/jpeg;base64,${film.pictureBase64}`}
           height={160}
           alt={film.title}
         />
