@@ -31,12 +31,12 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
         },
 
         validate: {
-            title: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
-            director: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
-            genre: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
-            length: (value) => (value <= 0 ? "Nagyobb mint 0-nak kell lennie" : null),
-            ageRating: (value) => (value < 0 || value > 18 ? "18 és 0 közötti számnak kell lennie" : null),
-            description: (value) => value.length <= 0 ? "Kötelező kitölteni" : null,
+            title: (value) => value.length <= 0 ? "Required" : null,
+            director: (value) => value.length <= 0 ? "Required" : null,
+            genre: (value) => value.length <= 0 ? "Required" : null,
+            length: (value) => (value <= 0 ? "Positive" : null),
+            ageRating: (value) => (value < 0 || value > 18 ? "Between 0 and 18" : null),
+            description: (value) => value.length <= 0 ? "Required" : null,
         },
     });
 
@@ -92,69 +92,74 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
             >
                 <TextInput
                     withAsterisk
-                    label="Cím"
-                    placeholder="Cím"
+                    label="Title"
+                    placeholder="Title"
                     key={form.key("title")}
                     {...form.getInputProps("title")}
                 />
                 <TextInput
                     withAsterisk
-                    label="Rendező"
-                    placeholder="Rendező"
+                    label="Director"
+                    placeholder="Director"
                     key={form.key("director")}
                     {...form.getInputProps("director")}
                 />
                 <TextInput
                     withAsterisk
-                    label="Műfaj"
-                    placeholder="Műfaj"
+                    label="Genre"
+                    placeholder="Genre"
                     key={form.key("genre")}
                     {...form.getInputProps("genre")}
                 />
                 <NumberInput
                     withAsterisk
-                    label="Hossz (perc)"
-                    placeholder="Hossz"
+                    label="Length"
+                    placeholder="Length"
                     key={form.key("length")}
                     {...form.getInputProps("length")}
+                    allowNegative={false}
+                    suffix=" minutes"
                 />
                 <TextInput
                     withAsterisk
-                    label="Leírás"
-                    placeholder="Leírás"
+                    label="Description"
+                    placeholder="Description"
                     key={form.key("description")}
                     {...form.getInputProps("description")}
                 />
                 <Checkbox
                     defaultChecked
-                    label="Korhatár"
+                    label="Age rating"
                     {...form.getInputProps("setAgeRating")}
                     onChange={handleCheckboxChange}
                 />
                 {showAgeRating && (
                     <NumberInput
                         withAsterisk
-                        label="Korhatár"
-                        placeholder="Korhatár"
+                        label="Age rating"
+                        placeholder="Age rating"
                         key={form.key("ageRating")}
                         {...form.getInputProps("ageRating")}
+                        allowNegative={false}
+                        suffix=" +"
+                        max={18}
                     />
                 )}
 
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit">Mentés</Button>
+                    <Button type="submit">Save</Button>
                 </Group>
             </form>
             {alertVisible && (<Alert
                 variant="light"
                 color="red"
-                title="Hiba"
+                title="Error"
                 mt={16}
                 icon={<IconAlertTriangle />}
                 withCloseButton
                 onClose={() => setAlertVisible(false)}
                 closeButtonLabel="Dismiss">
-                Hiba történt a mentés során.
+                Error while saving
             </Alert>)}
         </Card>
     );

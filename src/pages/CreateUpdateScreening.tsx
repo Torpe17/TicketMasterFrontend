@@ -29,11 +29,11 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
         validate: {
             date: (value) => {
                 const date = new Date(value).getTime();
-                if (isNaN(date)) return "Érvénytelen dátum";
-                if (date < Date.now()) return "Nem lehet múlt idő";
+                if (isNaN(date)) return "Invalid date";
+                if (date < Date.now()) return "Can not be in the past";
                 return null;
             },
-            defaultTicketPrice: (value) => value < 0 ? "Nem lehet negatív" : null,
+            defaultTicketPrice: (value) => value < 0 ? "Positive" : null,
         },
     });
 
@@ -105,7 +105,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
             >
 
                 <Fieldset
-                    legend={<Title order={4}>Film adatok</Title>}
+                    legend={<Title order={4}>Movie data</Title>}
                     radius="md"
                     style={{
                         border: '1px solid var(--mantine-color-gray-3)',
@@ -120,31 +120,31 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                             <Stack gap="md">
                                 <Group>
                                     <IconMovie size={18} />
-                                    <Text fw={700}>Cím:</Text>
+                                    <Text fw={700}>Title:</Text>
                                     <Text>{film.title}</Text>
                                 </Group>
 
                                 <Group>
                                     <IconUser size={18} />
-                                    <Text fw={700}>Rendező:</Text>
+                                    <Text fw={700}>Director:</Text>
                                     <Text>{film.director}</Text>
                                 </Group>
 
                                 <Group>
                                     <IconCategory size={18} />
-                                    <Text fw={700}>Műfaj:</Text>
+                                    <Text fw={700}>Genre:</Text>
                                     <Text>{film.genre}</Text>
                                 </Group>
 
                                 <Group>
                                     <IconClock size={18} />
-                                    <Text fw={700}>Hossz:</Text>
+                                    <Text fw={700}>Length:</Text>
                                     <Text>{film.length} perc</Text>
                                 </Group>
 
                                 <Group>
                                     <IconShield size={18} />
-                                    <Text fw={700}>Korhatár:</Text>
+                                    <Text fw={700}>Age rating:</Text>
                                     <Text>{film.ageRating}+</Text>
                                 </Group>
                             </Stack>
@@ -152,7 +152,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                     )}
                 </Fieldset>
                 <Fieldset
-                    legend={<Title order={4}>Vetítés</Title>}
+                    legend={<Title order={4}>Screening</Title>}
                     radius="md"
                     style={{
                         border: '1px solid var(--mantine-color-gray-3)',
@@ -174,24 +174,25 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                     />
                     <DateTimePicker
                         withAsterisk
-                        label="Vetítés dátuma"
-                        placeholder="Válassz dátumot"
+                        label="Screening date"
+                        placeholder="Choose date"
                         valueFormat="YYYY-MM-DD HH:mm"
                         key={form.key("date")}
                         {...form.getInputProps("date")}
                     />
                     <NumberInput
                         withAsterisk
-                        label="Alap jegyár"
-                        placeholder="Jegyár Ft"
+                        label="Default ticket price"
+                        placeholder="$ price"
                         key={form.key("defaultTicketPrice")}
+                        prefix="$ "
                         {...form.getInputProps("defaultTicketPrice")}
                     />
                 </Fieldset>
 
 
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit">Mentés</Button>
+                    <Button type="submit">Save</Button>
                 </Group>
             </form>
             {alertVisible && (<Alert
@@ -203,7 +204,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                 withCloseButton 
                 onClose={() => setAlertVisible(false)}
                 closeButtonLabel="Dismiss">
-                Hiba történt a mentés során.
+                Error while saving
             </Alert>)}
         </Card>
     );

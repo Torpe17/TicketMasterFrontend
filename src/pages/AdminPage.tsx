@@ -75,7 +75,7 @@ const AdminPage = () => {
                     color="yellow"
                     onClick={() => selectedFilm && navigate(`film/${selectedFilm?.id}/screening/${screening.id}`)}
                 >
-                    Módosítás
+                    Edit
                 </Button>
                 <Button
                     rightSection={<IconTrash size={14} />}
@@ -92,7 +92,7 @@ const AdminPage = () => {
                         }
                     }}
                 >
-                    Törlés
+                    Delete
                 </Button>
             </Table.Td>
         </Table.Tr>
@@ -105,13 +105,13 @@ const AdminPage = () => {
                     onClick={() => navigate('film/create')}
                     rightSection={<IconPlus size={14} />}
                     variant="light"
-                    color="green">Új film</Button>
+                    color="green">New movie</Button>
                 <Button
                     onClick={() => selectedFilm && navigate(`film/${selectedFilm.id}`)}
                     rightSection={<IconEdit size={14} />}
                     variant="light"
                     color="yellow"
-                    disabled={!selectedFilm}>Módosítás</Button>
+                    disabled={!selectedFilm}>Edit</Button>
                 <Button
                     onClick={async () => {
                         if (!selectedFilm) return;
@@ -128,7 +128,7 @@ const AdminPage = () => {
                     rightSection={<IconTrash size={14} />}
                     variant="light"
                     color="red"
-                    disabled={!selectedFilm}>Törlés</Button>
+                    disabled={!selectedFilm}>Delete</Button>
             </Group>
 
             <Combobox
@@ -142,8 +142,8 @@ const AdminPage = () => {
             >
                 <Combobox.Target>
                     <TextInput
-                        label="Film kiválasztása"
-                        placeholder="Kiválasztás..."
+                        label="Select film"
+                        placeholder="select..."
                         value={value}
                         onChange={(e) => {
                             setValue(e.currentTarget.value);
@@ -166,7 +166,7 @@ const AdminPage = () => {
                 disabled={!selectedFilm}
                 rightSection={<IconPlus size={14} />}
                 mt={25} variant="light" color="lime">
-                Új vetítés
+                New screening
             </Button>
 
             <Table>
