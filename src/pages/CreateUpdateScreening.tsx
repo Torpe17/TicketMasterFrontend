@@ -164,7 +164,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
                 >
 
                     <NativeSelect
-                        label="Terem"
+                        label="Room"
                         key={form.key('roomId')}
                         {...form.getInputProps('roomId')}
                         data={rooms.map((c) => ({
@@ -198,7 +198,7 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
             {alertVisible && (<Alert
                 variant="light"
                 color="red" 
-                title="Hiba" 
+                title="Error" 
                 mt={16} 
                 icon={<IconAlertTriangle />}
                 withCloseButton 

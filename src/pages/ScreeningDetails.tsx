@@ -399,7 +399,7 @@ const ScreeningDetails = () => {
                 }
 
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit">Mentés</Button>
+                    <Button type="submit">Save</Button>
                 </Group>
             </form>
             {alertVisible && (<Alert
