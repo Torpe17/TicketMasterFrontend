@@ -14,6 +14,7 @@ import TicketInspection from "../pages/TicketInspection.tsx";
 import RequireCashier from "../components/auth/RequireCashier.tsx";
 import UserProfile from "../pages/UserProfile.tsx";
 import CreateAddress from "../pages/CreateAddress.tsx";
+import ScreeningDetails from "../pages/ScreeningDetails.tsx";
 export const routes = [
     {
         path: "login",
@@ -43,6 +44,11 @@ export const routes = [
     {
         path: "films/:id",
         component: <FilmDetails />,
+        isPrivate: true
+    },
+    {
+        path: "screening/:id",
+        component: <ScreeningDetails />,
         isPrivate: true
     },
     {
