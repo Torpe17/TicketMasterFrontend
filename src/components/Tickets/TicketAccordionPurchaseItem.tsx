@@ -88,7 +88,7 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                     <div className="app-container">
                         {loading && <p>Please Wait....</p>}
                         {img && <img src={img} className="qr-code-image" />}
-                        <p>Jegy azonosító: {currentTicketId}</p>
+                        <p>Ticket Identifier: {currentTicketId}</p>
                     </div>
                 </Flex>
             </Modal>

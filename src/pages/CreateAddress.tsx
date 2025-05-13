@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import countries from 'i18n-iso-countries';
-import hu from 'i18n-iso-countries/langs/hu.json';
+import { countries } from 'countries-list';
 import api from "../api/api";
 import AddressForm from "../components/AddressForm";
 import { SelectItem } from "../interfaces/Types";
 
-countries.registerLocale(hu);
+//countries.registerLocale(hu);
 
 interface ICreateAddress {
   isCreate: boolean;
@@ -18,11 +17,10 @@ const CreateAddress = ({ isCreate }: ICreateAddress) => {
   const [successModalOpened, setSuccessModalOpened] = useState(false);
   const navigate = useNavigate();
 
-  const countryNames = countries.getNames('hu');
-  const countryOptions: SelectItem[] = Object.entries(countryNames).map(([code, name]) => ({
-    value: code,
-    label: name as string,
-  }));
+  const countryOptions: SelectItem[] = Object.entries(countries).map(([code, country]) => ({
+  value: code,
+  label: country.name,
+}));
 
  const [initialValues, setInitialValues] = useState({
     country: '',
@@ -108,7 +106,7 @@ const CreateAddress = ({ isCreate }: ICreateAddress) => {
       if (error instanceof AxiosError) {
         errorMessage = error.response?.data;
       }
-      setError(`Az új cím felvétele sikertelen. ${errorMessage}`);
+      setError(`Create new address was unsuccessfull. ${errorMessage}`);
     }
   };
 
