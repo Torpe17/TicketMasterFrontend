@@ -1,9 +1,11 @@
-import { Accordion, Box, Text, Title, Group, Tooltip } from "@mantine/core";
-import { IconReceipt, IconSum, IconCalendar } from "@tabler/icons-react";
+import { Accordion, Box, Text, Title, Group, Tooltip, Button, Modal, Flex } from "@mantine/core";
+import { IconReceipt, IconSum, IconCalendar, IconArmchair } from "@tabler/icons-react";
 import TicketItem from "./TicketAccordionTicketItem";
 import DeleteButton from "./TicketDeleteButton";
 import { canDeletePurchase } from "./utils";
 import { IPurchase } from "../../interfaces/IPurchase";
+import { useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
 
 interface PurchaseItemProps {
     purchase: IPurchase;
@@ -11,6 +13,26 @@ interface PurchaseItemProps {
 }
 
 const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
+
+    //qr code
+    const [img, setImg] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [currentTicketId, setCurrentTicketId] = useState(0);
+    const [opened, { open, close }] = useDisclosure(false);
+
+    const generateQR = (qrData: string) => {
+        setLoading(true);
+        try {
+            const url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}`;
+            setImg(url);
+        } catch (error) {
+            console.error("Error generating QR code", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
     return (
         <Accordion.Item value={String(purchase.id)}>
             <Accordion.Control icon={<IconReceipt size={20} />}>
@@ -35,11 +57,17 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                 <Title order={5} mb="sm">Jegyek:</Title>
                 <div>
                     {purchase.tickets.map((ticket, index) => (
-                        <TicketItem 
-                            key={ticket.id || index}
-                            ticket={ticket}
-                            index={index}
-                        />
+                        <div><Group key={ticket.id} mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '8px' }}>
+                            <IconArmchair size={16} />
+                            <Text size="sm">Jegy {index + 1}:</Text>
+                            <Text size="sm">Sor: {ticket.seatRow}, Szék: {ticket.seatColumn}</Text>
+                            <Button variant="default" onClick={() => {
+                                open();
+                                generateQR(String(ticket.id))
+                                setCurrentTicketId(ticket.id)
+                            }}>Felmutatás</Button>
+                        </Group>
+                        </div>
                     ))}
                 </div>
             </Accordion.Panel>
@@ -50,7 +78,22 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                     onDelete={onDelete}
                 />
             </Accordion.Panel>
+            
+            <Modal opened={opened} onClose={close} title="Olvassa be az ellenőrzéshez">
+                <Flex
+                    direction={{ base: 'column', sm: 'row' }}
+                    gap={{ base: 'sm', sm: 'lg' }}
+                    justify={{ sm: 'center' }}
+                >
+                    <div className="app-container">
+                        {loading && <p>Please Wait....</p>}
+                        {img && <img src={img} className="qr-code-image" />}
+                        <p>Jegy azonosító: {currentTicketId}</p>
+                    </div>
+                </Flex>
+            </Modal>
         </Accordion.Item>
+        
     );
 };
 
