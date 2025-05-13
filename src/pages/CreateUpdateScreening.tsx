@@ -42,7 +42,13 @@ const CreateUpdateScreenings = ({ isCreate }: ICreateUpdateScreening) => {
     const { filmId, id } = useParams();
 
     useEffect(() => {
-        api.Room.getRooms().then(res => setRooms(res.data));
+        api.Room.getRooms().then(res => {
+            setRooms(res.data)
+            if (isCreate && res.data.length > 0) {
+                form.setFieldValue("roomId", String(res.data[0].roomId));
+            }
+        });
+        
     }, []);
 
     useEffect(() => {
