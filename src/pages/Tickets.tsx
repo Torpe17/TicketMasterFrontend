@@ -27,7 +27,7 @@ const Tickets = () => {
 
     return (
         <div>
-            <Title order={1} mb="xl">Vásárolt jegyek</Title>
+            <Title order={1} mb="xl">Purchased Tickets</Title>
             <Accordion variant="separated" radius="lg" chevronPosition="left">
                 {purchases.map((purchase) => (
                     <PurchaseItem 

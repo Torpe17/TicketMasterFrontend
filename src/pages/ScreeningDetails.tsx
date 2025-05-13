@@ -100,8 +100,8 @@ const ScreeningDetails = () => {
             },
     
             validate: {
-                email: (value) => !isLoggedIn &&  value.length <= 0 ? "Kötelező kitölteni" : null,
-                phone: (value) => !isLoggedIn && value.length <= 0 ? "Kötelező kitölteni" : null
+                email: (value) => !isLoggedIn &&  value.length <= 0 ? "Required field" : null,
+                phone: (value) => !isLoggedIn && value.length <= 0 ? "Required field" : null
             },
         });
 
@@ -405,13 +405,13 @@ const ScreeningDetails = () => {
             {alertVisible && (<Alert
                 variant="light"
                 color="red"
-                title="Hiba"
+                title="Error"
                 mt={16}
                 icon={<IconAlertTriangle />}
                 withCloseButton
                 onClose={() => setAlertVisible(false)}
                 closeButtonLabel="Dismiss">
-                Hiba történt a mentés során.
+                There was an error during the save process.
             </Alert>)}
 
             </Modal>

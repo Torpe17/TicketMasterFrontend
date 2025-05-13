@@ -40,7 +40,7 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                     <div>
                         <Title order={4}>{purchase.ticketFilmName}</Title>
                         <Text c="dimmed" size="sm">
-                            Vetítés: {new Date(purchase.screeningTime).toLocaleString()}
+                            Screening: {new Date(purchase.screeningTime).toLocaleString()}
                         </Text>
                     </div>
                     <Text fw={700}>{purchase.ticketCount} jegyek</Text>
@@ -49,23 +49,23 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
 
             <Accordion.Panel>
                 <Box mb="md">
-                    <Text><IconReceipt size={18} /><b>Azonosító: </b>{purchase.id}</Text>
-                    <Text><IconSum size={18} /><b>Összeg:</b> ${purchase.totalPrice.toFixed(2)}</Text>
-                    <Text><IconCalendar size={18} /><b>Vásárlás dátuma:</b> {new Date(purchase.purchaseDate).toLocaleString()}</Text>
+                    <Text><IconReceipt size={18} /><b>Identifier: </b>{purchase.id}</Text>
+                    <Text><IconSum size={18} /><b>Sum:</b> ${purchase.totalPrice.toFixed(2)}</Text>
+                    <Text><IconCalendar size={18} /><b>Purchase date:</b> {new Date(purchase.purchaseDate).toLocaleString()}</Text>
                 </Box>
 
-                <Title order={5} mb="sm">Jegyek:</Title>
+                <Title order={5} mb="sm">Tickets:</Title>
                 <div>
                     {purchase.tickets.map((ticket, index) => (
                         <div><Group key={ticket.id} mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '8px' }}>
                             <IconArmchair size={16} />
-                            <Text size="sm">Jegy {index + 1}:</Text>
-                            <Text size="sm">Sor: {ticket.seatRow}, Szék: {ticket.seatColumn}</Text>
+                            <Text size="sm">Ticket {index + 1}:</Text>
+                            <Text size="sm">Row: {ticket.seatRow}, Chair: {ticket.seatColumn}</Text>
                             <Button variant="default" onClick={() => {
                                 open();
                                 generateQR(String(ticket.id))
                                 setCurrentTicketId(ticket.id)
-                            }}>Felmutatás</Button>
+                            }}>Show</Button>
                         </Group>
                         </div>
                     ))}
@@ -79,7 +79,7 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                 />
             </Accordion.Panel>
             
-            <Modal opened={opened} onClose={close} title="Olvassa be az ellenőrzéshez">
+            <Modal opened={opened} onClose={close} title="Scan to validate">
                 <Flex
                     direction={{ base: 'column', sm: 'row' }}
                     gap={{ base: 'sm', sm: 'lg' }}

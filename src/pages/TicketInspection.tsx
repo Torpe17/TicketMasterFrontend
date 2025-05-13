@@ -20,7 +20,7 @@ const TicketInspection = () => {
         },
 
         validate: {
-            id: (value) => value <= 0 ? "Nem lehet negatív" : null,
+            id: (value) => value <= 0 ? "Can't be negative" : null,
         },
     });
 
@@ -37,8 +37,8 @@ const TicketInspection = () => {
                 if (err.response) {
                     const status = err.response.status;
                     console.log(status);
-                    if (status == 404) setAlertMessage("A jegy nem található.")
-                    else if (status == 400) setAlertMessage("A jegyet már ellenőrizték.")
+                    if (status == 404) setAlertMessage("The ticket can't be found")
+                    else if (status == 400) setAlertMessage("The ticket has already been validated")
                     else { setAlertMessage(""); }
                 }
                 setErrorVisible(true);
@@ -95,7 +95,7 @@ const TicketInspection = () => {
     }, [opened]);
 
     useEffect(() => {
-        if (!qrOn) alert("Nincs engedélyezve a kamera. A scanneléshez engedélyezze és töltse újra az oldalt");
+        if (!qrOn) alert("The camera is disabled. Please enable it and refresh the site");
     }, [qrOn]);
 
     return <Card>
@@ -114,48 +114,48 @@ const TicketInspection = () => {
             <form onSubmit={form.onSubmit(async (values) => validateAPI(values.id))} >
                 <NumberInput
                     withAsterisk
-                    label="Jegy azonosító"
-                    placeholder="Hossz"
+                    label="Ticket Identifier"
+                    placeholder="Length"
                     allowNegative={false}
                     key={form.key("id")}
                     {...form.getInputProps("id")}
                 />
 
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit">Mentés</Button>
+                    <Button type="submit">Save</Button>
                 </Group>
 
                 {qrOn && (<Button variant="default" leftSection={<IconObjectScan />} onClick={open}>
-                    Beolvasás
+                    Scan
                 </Button>)}
             </form>
             {errorVisible && (<Alert
                 variant="light"
                 color="red"
-                title="Hiba"
+                title="Error"
                 mt={16}
                 icon={<IconAlertTriangle />}
                 withCloseButton
                 onClose={() => setErrorVisible(false)}
                 closeButtonLabel="Dismiss">
-                Hiba történt a művelet során. <br />
+                There has been an error. <br />
                 {alertMessage}
             </Alert>)}
             {successVisible && lastValidatedId != -1 && (<Alert
                 variant="light"
                 color="green"
-                title="Sikeres ellenőrzés"
+                title="Succesfully validated."
                 mt={16}
                 icon={<IconCheck />}
                 withCloseButton
                 onClose={() => setSuccessVisible(false)}
                 closeButtonLabel="Dismiss">
-                A {lastValidatedId} azonosítójú jegy sikeresen ellenőrizve.<br />
+                The {lastValidatedId} ID ticket has been validated<br />
             </Alert>)}
 
         </Fieldset>
-        <Modal opened={opened} onClose={close} title="Jegy beolvasás">
-            {!qrOn && (<p>Nincs engedélyezve a kamera.</p>)}
+        <Modal opened={opened} onClose={close} title="Scan ticket">
+            {!qrOn && (<p>Camera is disabled</p>)}
             <div className="qr-reader">
                 <video ref={videoEl} width={256} height={256}></video>
             </div>

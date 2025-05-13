@@ -11,8 +11,8 @@ const TicketItem = ({ ticket, index }: TicketItemProps) => {
     return (
         <Group mb="xs" p="xs" bg="gray.0" style={{ borderRadius: '8px' }}>
             <IconArmchair size={16} />
-            <Text size="sm">Jegy {index + 1}:</Text>
-            <Text size="sm">Sor: {ticket.seatRow}, Szék: {ticket.seatColumn}</Text>
+            <Text size="sm">Ticket {index + 1}:</Text>
+            <Text size="sm">Row: {ticket.seatRow}, Chair: {ticket.seatColumn}</Text>
         </Group>
     );
 };

@@ -13,7 +13,7 @@ const DeleteButton = ({ purchase, onDelete }: DeleteButtonProps) => {
 
     return (
         <Tooltip 
-            label="A vásárlást 4 órán belül a vetítéshez képest nem lehet törölni."
+            label="You can't delete within 4 hours of the screening"
             disabled={!disabled}
             position="bottom">
             <div>
@@ -27,7 +27,7 @@ const DeleteButton = ({ purchase, onDelete }: DeleteButtonProps) => {
                         transition: 'all 0.2s ease',
                         cursor: !disabled ? 'pointer' : 'not-allowed'
                     }}>
-                    Vásárlás törlése
+                    Delete purchase
                 </Button>
             </div>
         </Tooltip>
