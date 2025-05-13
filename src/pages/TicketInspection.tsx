@@ -122,7 +122,7 @@ const TicketInspection = () => {
                 />
 
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit">Save</Button>
+                    <Button type="submit">Validate</Button>
                 </Group>
 
                 {qrOn && (<Button variant="default" leftSection={<IconObjectScan />} onClick={open}>
