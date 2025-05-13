@@ -9,7 +9,7 @@ import {
   Checkbox,
   Space,
   Center, 
-  Loader
+  Loader,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { DatePicker } from '@mantine/dates';
@@ -17,6 +17,8 @@ import { IFilm } from '../interfaces/IFilm';
 import { FilmCard, TrendingFilmCard } from './FilmCard';
 import '@mantine/carousel/styles.css';
 import Autoplay from 'embla-carousel-autoplay';
+import useAuth from "../hooks/useAuth.tsx";
+import { useNavigate } from 'react-router-dom';
 
 interface FilmsContainerProps {
   loading: boolean;
@@ -54,8 +56,9 @@ export const FilmsContainer: React.FC<FilmsContainerProps> = ({
       <TrendingFilmCard film={film} />
     </Carousel.Slide>
   ));
-
+const { isLoggedIn } = useAuth();
 const autoplay = useRef(Autoplay({ delay: 5000 }));
+const navigate = useNavigate();
 
   return (
     <Container fluid>
@@ -91,6 +94,14 @@ const autoplay = useRef(Autoplay({ delay: 5000 }));
           Reset filter
         </Button>
       </Drawer>
+      {!isLoggedIn&&(
+        <Space h='xl' />
+      )}
+      {!isLoggedIn&&(
+        <Button variant="default" onClick={() => navigate(`../login`)}>
+          Log in
+        </Button>
+      )}
 
       <h1>Trending films</h1>
       <Carousel
@@ -115,7 +126,8 @@ const autoplay = useRef(Autoplay({ delay: 5000 }));
           </Center>
           
         )}
-      <SimpleGrid cols={5} spacing="lg">
+
+      <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }} spacing="lg">
         {films.map((film) => (
           <FilmCard key={film.id} film={film} />
         ))}

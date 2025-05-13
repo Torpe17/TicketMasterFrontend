@@ -82,7 +82,7 @@ export function NavbarMinimal({toggle}: any) {
         });
     }
     
-
+    const { isLoggedIn } = useAuth();
 
     const onLogout = () => {
         logout();
@@ -109,26 +109,35 @@ export function NavbarMinimal({toggle}: any) {
 
     return (
         <nav className={classes.navbar}>
-            <div>
-                <div className={classes.navbarMain}>
-                    {links}
-                </div>
-                <div className={classes.footer} style={{width: !isMobile ? '216px' : '90%'}}>
-                    <NavbarLink
-                        active={location.pathname === '/profile'}
-                        icon={IconUserCircle}
-                        label="Profil"
-                        onClick={() => {
-                            navigate("profile");
-                            toggle();
-                        }} color="grape" />
-                    <NavbarLink
-                        icon={IconLogout}
-                        label={"Kijelentkezés"}
-                        onClick={onLogout} color="grape"/>
+            {isLoggedIn &&(
+                <div>
+                    <div className={classes.navbarMain}>
+                        {links}
+                    </div>
+                    <div className={classes.footer} style={{width: !isMobile ? '216px' : '90%'}}>
+                        <NavbarLink
+                            active={location.pathname === '/profile'}
+                            icon={IconUserCircle}
+                            label="Profil"
+                            onClick={() => {
+                                navigate("profile");
+                                toggle();
+                            }} color="grape" />
+                        <NavbarLink
+                            icon={IconLogout}
+                            label={"Kijelentkezés"}
+                            onClick={onLogout} color="grape"/>
 
+                    </div>
                 </div>
-            </div>
+            )}
+            {!isLoggedIn&&(
+                <NavbarLink
+                            icon={IconLogout}
+                            label={"Kijelentkezés"}
+                            onClick={() => navigate(`../login`)}
+                            color="grape"/>
+            )}
         </nav>
     );
 }
