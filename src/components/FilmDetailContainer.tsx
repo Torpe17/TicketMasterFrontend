@@ -24,8 +24,7 @@ export const FilmDetailContainer: React.FC<FilmProps & ScreeningProps> = ({ film
             <Grid gutter="xs">
                 <Grid.Col span={2.25}>
                 <Image
-                    src={`data:image/jpeg;base64,${film.pictureBase64}`}
-                    
+                    src={ film.pictureBase64 != null ? `data:image/jpeg;base64,${film.pictureBase64}`: '/noposter.jpg'}
                     fit="contain"
                     alt={film.title}
                     />
