@@ -1,19 +1,26 @@
-import {Image, Grid, Flex, SimpleGrid, Space, Group } from '@mantine/core';
+import {Image, Grid, Flex, SimpleGrid, Space, Group, Container, Button } from '@mantine/core';
 import { IFilm } from '../interfaces/IFilm';
 import { IScreening } from '../interfaces/IScreening';
 import ScreeningButton from '../components/FilmScreeningButton'
-import { IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
-
+import { IconCategory, IconClock, IconMovie, IconShield, IconUser, IconChevronLeft } from "@tabler/icons-react";
+import useAuth from "../hooks/useAuth.tsx";
+import { useNavigate } from 'react-router-dom';
 interface FilmProps {
   film: IFilm;
 }
 interface ScreeningProps{
     screening: IScreening[];
 }
-
 export const FilmDetailContainer: React.FC<FilmProps & ScreeningProps> = ({ film, screening }) => {
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
     return (
-        <div>
+        <Container fluid>
+            {!isLoggedIn && (
+                <Space h="xl" />
+            )}
+            <Button variant="default" radius="xl" onClick={() => navigate('../films')}><IconChevronLeft/></Button>
+            <Space h="md"/>
             <Grid gutter="xs">
                 <Grid.Col span={2.25}>
                 <Image
@@ -53,6 +60,6 @@ export const FilmDetailContainer: React.FC<FilmProps & ScreeningProps> = ({ film
                 <ScreeningButton key={screening.id} screening={screening} />
                 ))}
             </SimpleGrid>
-            </div>
+            </Container>
 )}
 export default FilmDetailContainer;
