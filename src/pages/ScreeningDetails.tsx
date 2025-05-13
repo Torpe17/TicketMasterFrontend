@@ -16,11 +16,12 @@ const ScreeningDetails = () => {
     const [selectedScreening, setScreening] = useState<IScreening | null>(null);
     const [room, setRoom] = useState<IRoom | null>(null);
     const [tickets, setTickets] = useState<ITicket[] | null>(null);
-    const [selectedSeats, setSelectedSeats] = useState<{ row: number, column: number }[]>([]);
+    const [selectedSeats, setSelectedSeats] = useState<ICreatePurchaseTicket[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
-    const purchaseDetails = useState<ICreatePurchase>();
+    // const [purchaseDetails, setPurchaseDetails] = useState<ICreatePurchaseUser | null>(null);
+
 
     const navigate = useNavigate();
 
@@ -53,13 +54,22 @@ const ScreeningDetails = () => {
 
     // Handle seat selection
     const toggleSeat = (row: number, column: number) => {
+        if (!selectedScreening?.id) return;
+
         setSelectedSeats(prev => {
-            const existingIndex = prev.findIndex(s => s.row === row && s.column === column);
+            const existingIndex = prev.findIndex(s => s.seatRow === row && s.seatColumn === column);
 
             if (existingIndex >= 0) {
                 return prev.filter((_, index) => index !== existingIndex);
             } else {
-                return [...prev, { row, column }];
+                return [
+                    ...prev,
+                    {
+                        screeningId: selectedScreening.id,
+                        seatColumn: column,
+                        seatRow: row,
+                    },
+                ];
             }
         });
     };
@@ -76,7 +86,16 @@ const ScreeningDetails = () => {
     const handlePurchase = async () => {
         try {
             setLoading(true);
-            await api.Purchases.createPurchase(purchaseDetails);
+
+            if (selectedSeats.length == 0) throw new Error("No seats selected");
+            const purchaseData: ICreatePurchaseUser = {
+                tickets: selectedSeats
+            };
+
+            console.log(purchaseData);
+            
+            await api.Purchases.createPurchase(purchaseData);
+            setError(null);
             setPurchaseModalOpen(true);
 
         } catch (err) {
@@ -87,14 +106,6 @@ const ScreeningDetails = () => {
             setLoading(false);
         }
     };
-
-    if (error) {
-        return (
-            <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
-                {error}
-            </Alert>
-        );
-    }
 
     if (!selectedScreening || !room) {
         return <LoadingOverlay visible={loading} />;
@@ -135,14 +146,14 @@ const ScreeningDetails = () => {
                             }}>
                                 {Array.from({ length: room.maxSeatRow }).map((_, rowIndex) => (
                                     Array.from({ length: room.maxSeatColumn }).map((_, colIndex) => {
-                                        const isSelected = selectedSeats.some(s => s.row === rowIndex && s.column === colIndex);
+                                        const isSelected = selectedSeats.some(s => s.seatRow === rowIndex + 1 && s.seatColumn === colIndex + 1);
                                         const isTaken = seatTaken(rowIndex + 1, colIndex + 1);
 
                                         return (
                                             <Checkbox
                                                 key={`${rowIndex}-${colIndex}`}
                                                 checked={isSelected}
-                                                onChange={() => toggleSeat(rowIndex, colIndex)}
+                                                onChange={() => toggleSeat(rowIndex + 1 , colIndex + 1)}
                                                 labelPosition="left"
                                                 label={`${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`}
                                                 disabled={isTaken}
@@ -161,7 +172,9 @@ const ScreeningDetails = () => {
                                                         padding: '4px',
                                                         transition: 'all 0.2s ease',
                                                         backgroundColor: 'var(--mantine-color-gray-1)',
-                                                        border: '1px solid var(--mantine-color-gray-3)',
+                                                        borderWidth: '1px',
+                                                        borderStyle: 'solid',
+                                                        borderColor: 'var(--mantine-color-gray-3)',
                                                         ...(isSelected && {
                                                             backgroundColor: 'var(--mantine-color-blue-1)',
                                                             borderColor: 'var(--mantine-color-blue-4)'
@@ -264,24 +277,31 @@ const ScreeningDetails = () => {
                 onClose={() => setPurchaseModalOpen(false)}
                 title="Purchase Successful!"
             >
-                <Text mb="md">Thank you for your purchase!</Text>
-                <Text mb="md">Your tickets have been reserved.</Text>
-                <Button
-                    fullWidth
-                    onClick={() => {
-                        setPurchaseModalOpen(false);
-                        setTimeout(() => {
-                            navigate('/app/tickets', {
-                              replace: true,
-                              state: { 
-                                showSuccess: true
-                              }
-                            });
-                          }, 200);
-                    }}
-                >
-                    View My Tickets
-                </Button>
+                {error && <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
+                    {error}
+                </Alert>}{
+                    !error &&
+                    (<div><Text mb="md">Thank you for your purchase!</Text>
+                        <Text mb="md">Your tickets have been reserved.</Text>
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setPurchaseModalOpen(false);
+                                setTimeout(() => {
+                                    navigate('/app/tickets', {
+                                        replace: true,
+                                        state: {
+                                            showSuccess: true
+                                        }
+                                    });
+                                }, 200);
+                            }}
+                        >
+                            View My Tickets
+                        </Button>
+                    </div>)
+                }
+
             </Modal>
 
             <LoadingOverlay visible={loading} />
