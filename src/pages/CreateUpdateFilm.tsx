@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Checkbox, Group, NumberInput, TextInput } from "@mantine/core";
+import { Alert, Button, Card, Checkbox, Group, NumberInput, TextInput, FileInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import api from "../api/api.ts";
@@ -11,12 +11,41 @@ interface ICreateUpdateFilms {
 
 const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
     const [showAgeRating, setShowAgeRating] = useState(true);
+    const[removePicture, setRemovePicture] = useState(false);
     const navigate = useNavigate();
     const [alertVisible, setAlertVisible] = useState(false);
+
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [base64Image, setBase64Image] = useState<string | null>(null);
+
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setShowAgeRating(event.currentTarget.checked);
     };
+
+    const handleRemoveImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRemovePicture(event.currentTarget.checked);
+    };
+
+    const handleImageUpload = (file: File | null) => {
+        setImageFile(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const result = reader.result as string;
+                const base64String = result.split(',')[1];
+                setBase64Image(base64String);
+            };
+            reader.onerror = (error) => {
+                console.error("Error converting image:", error);
+                setAlertVisible(true);
+            };
+        } else {
+            setBase64Image(null);
+        }
+    };
+
 
     const form = useForm({
         mode: "uncontrolled",
@@ -28,6 +57,7 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
             description: "",
             ageRating: 0,
             setAgeRating: true,
+            removePicture: false,
         },
 
         validate: {
@@ -53,6 +83,7 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                     description: res.data.description,
                     ageRating: res.data.ageRating,
                     setAgeRating: res.data.ageRating != null,
+                    removePicture: false,
                 });
             });
         }
@@ -71,8 +102,10 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                                 length: Number(values.length),
                                 description: values.description,
                                 ageRating: Number(values.ageRating),
+                                pictureBytes: base64Image == "0x" ? null : base64Image
                             });
                         } else {
+                            const cur = await api.Films.getFilm(String(id));
                             await api.Films.updateFilm(String(id), {
                                 title: values.title,
                                 director: values.director,
@@ -80,7 +113,9 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                                 length: Number(values.length),
                                 description: values.description,
                                 ageRating: Boolean(values.setAgeRating) == true ? Number(values.ageRating) : null,
-                                setAgeRating: true
+                                setAgeRating: true,
+                                pictureBase64: base64Image == cur.data.pictureBase64 ? null : base64Image,
+                                removePicture: Boolean(removePicture),
                             });
                         }
                         navigate(-1);
@@ -144,6 +179,28 @@ const CreateUpdateFilms = ({ isCreate }: ICreateUpdateFilms) => {
                         suffix=" +"
                         max={18}
                     />
+                )}
+
+                {!isCreate && (
+                    <Checkbox
+                    label="Remove Current Picture"
+                    key={form.key("removePicture")}
+                    {...form.getInputProps("removePicture")}
+                    onChange={handleRemoveImage}
+                    />
+                    )}
+               
+
+                {!removePicture && (
+                    <FileInput
+                    accept="image/png,image/jpeg,image/jpg"
+                    clearable
+                    label="Film Poster"
+                    placeholder="Your Poster Image Here"
+                    key={form.key("pictureBase64")}
+                    {...form.getInputProps("pictureBase64")}
+                    onChange={handleImageUpload}
+                />
                 )}
 
                 <Group justify="flex-end" mt="md">
