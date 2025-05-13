@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Center, Loader } from '@mantine/core';
+
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
@@ -13,9 +13,9 @@ const Films: React.FC = () => {
   const [trendingFilms, setTrendingFilms] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [debouncedNameValue] = useDebouncedValue(nameValue, 300);
+  const [debouncedNameValue] = useDebouncedValue(nameValue, 500);
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, {open, close}] = useDisclosure(false);
 
   const resetFilter = () => {
     setNameValue('');
@@ -60,16 +60,9 @@ const Films: React.FC = () => {
     fetchFilms();
   }, [dateValue, debouncedNameValue, checked]);
 
-  if (loading) {
-    return (
-      <Center>
-        <Loader />
-      </Center>
-    );
-  }
-
   return (
     <FilmsContainer
+      loading = {loading}
       films={films}
       trendingFilms={trendingFilms}
       dateValue={dateValue}
