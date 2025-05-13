@@ -1,8 +1,8 @@
 import { useState } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import ForgotPasswordForm from "../components/auth/ForgotPasswordForm";
+import ForgotPasswordForm from "../../components/auth/ForgotPasswordForm";
 
 const ForgotPassword = () => {
   const [error, setError] = useState<string | null>(null);

@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAlertCircle, IconCheck } from "@tabler/icons-react";
-import { SelectItem } from "../interfaces/Types";
+import { SelectItem } from "../../interfaces/Types";
 import { useEffect } from "react";
 
 interface AddressFormValues {

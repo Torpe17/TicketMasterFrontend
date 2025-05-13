@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Fieldset, Group, Modal, NumberInput, rem, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAlertTriangle, IconCheck, IconObjectScan } from "@tabler/icons-react";
-import api from "../api/api";
+import api from "../../api/api";
 import { useEffect, useRef, useState } from "react";
 import "./QrStyles.css";
 import QrScanner from "qr-scanner";

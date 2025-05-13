@@ -1,8 +1,8 @@
 import { Accordion, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { IPurchase } from "../interfaces/IPurchase";
-import api from "../api/api";
-import PurchaseItem from "../components/Tickets/TicketAccordionPurchaseItem";
+import { IPurchase } from "../../interfaces/IPurchase";
+import api from "../../api/api";
+import PurchaseItem from "../../components/Tickets/TicketAccordionPurchaseItem";
 
 const Tickets = () => {
     const [purchases, setPurchases] = useState<IPurchase[]>([]);

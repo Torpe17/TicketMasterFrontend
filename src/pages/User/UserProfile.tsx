@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { AxiosError } from "axios";
-import api from "../api/api";
-import useAuth from "../hooks/useAuth";
-import UserProfileForm from "../components/UserProfileForm";
+import api from "../../api/api";
+import useAuth from "../../hooks/useAuth";
+import UserProfileForm from "../../components/User/UserProfileForm";
 
 const UserProfile = () => {
   const { name, email, setName, setEmail } = useAuth();
