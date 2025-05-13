@@ -13,11 +13,11 @@ import {
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { DatePicker } from '@mantine/dates';
-import { IFilm } from '../interfaces/IFilm';
+import { IFilm } from '../../interfaces/IFilm.ts';
 import { FilmCard, TrendingFilmCard } from './FilmCard';
 import '@mantine/carousel/styles.css';
 import Autoplay from 'embla-carousel-autoplay';
-import useAuth from "../hooks/useAuth.tsx";
+import useAuth from "../../hooks/useAuth.tsx";
 import { useNavigate } from 'react-router-dom';
 
 interface FilmsContainerProps {

@@ -1,7 +1,7 @@
 import { Card, Text, Badge, Button, Group, Image, Space, MantineProvider, createTheme } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { IFilm } from '../interfaces/IFilm';
-import classes from './Layout/Button.module.css'
+import { IFilm } from '../../interfaces/IFilm';
+import classes from '../Layout/Button.module.css'
 
 interface FilmCardProps {
   film: IFilm;

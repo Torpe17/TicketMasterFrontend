@@ -1,9 +1,9 @@
 import {Image, Grid, Flex, SimpleGrid, Space, Group, Container, Button } from '@mantine/core';
-import { IFilm } from '../interfaces/IFilm';
-import { IScreening } from '../interfaces/IScreening';
-import ScreeningButton from '../components/FilmScreeningButton'
+import { IFilm } from '../../interfaces/IFilm.ts';
+import { IScreening } from '../../interfaces/IScreening.ts';
+import ScreeningButton from './FilmScreeningButton'
 import { IconCategory, IconClock, IconMovie, IconShield, IconUser, IconChevronLeft } from "@tabler/icons-react";
-import useAuth from "../hooks/useAuth.tsx";
+import useAuth from "../../hooks/useAuth.tsx";
 import { useNavigate } from 'react-router-dom';
 interface FilmProps {
   film: IFilm;

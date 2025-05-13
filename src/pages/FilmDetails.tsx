@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
 import { IScreening } from '../interfaces/IScreening';
-import FilmDetailContainer from '../components/FilmDetailContainer';
+import FilmDetailContainer from '../components/Film/FilmDetailContainer';
 
 const FilmDetails: React.FC = () => {
   const { id } = useParams();

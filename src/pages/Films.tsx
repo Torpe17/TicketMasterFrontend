@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDebouncedValue, useDisclosure } from '@mantine/hooks';
 import api from '../api/api';
 import { IFilm } from '../interfaces/IFilm';
-import { FilmsContainer } from '../components/FilmsContainer';
+import { FilmsContainer } from '../components/Film/FilmsContainer';
 
 const Films: React.FC = () => {
   const [dateValue, setDateValue] = useState<string | null>(null);

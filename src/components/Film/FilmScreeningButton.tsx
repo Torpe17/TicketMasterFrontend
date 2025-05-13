@@ -1,6 +1,6 @@
 import { Button} from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { IScreening } from '../interfaces/IScreening';
+import { IScreening } from '../../interfaces/IScreening';
 import dayjs
  from 'dayjs';
 interface ScreeningButtonProps {
