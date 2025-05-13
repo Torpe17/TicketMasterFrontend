@@ -11,7 +11,7 @@ const Login = () => {
     const result = await login(email, password);
     
     if (!result.success) {
-      setError(result.error || 'Hibás email cím vagy jelszó');
+      setError(result.error || 'The email address or password does not match!');
     }
   };
 

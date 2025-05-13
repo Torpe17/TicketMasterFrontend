@@ -28,8 +28,8 @@ interface UserProfileFormProps {
   onClearError: () => void;
   onClearSuccess: () => void;
   onNewAddressClick: () => void;
-  onDeleteClick: () => void; // For opening the modal
-  onDeleteConfirm: () => void; // For actual deletion
+  onDeleteClick: () => void;
+  onDeleteConfirm: () => void;
   onDeleteModalClose: () => void;
   deleteModalOpened: boolean;
 }
@@ -57,11 +57,11 @@ const UserProfileForm = ({
     initialValues,
     validate: {
       email: (value) => {
-        if (!value) return 'Kötelező egy email cím';
-        return /^\S+@\S+$/.test(value) ? null : 'Érvénytelen email cím';
+        if (!value) return 'An email address is required';
+        return /^\S+@\S+$/.test(value) ? null : 'The given email address is invalid';
       },
       name: (value) => {
-        if (!value) return 'Kötelező egy felhasználó név';
+        if (!value) return 'An username is required';
         return null;
       }
     },
@@ -69,14 +69,14 @@ const UserProfileForm = ({
 
   return (
     <>
-      <Title order={1}>Profilom</Title>
+      <Title order={1}>My Profile</Title>
       <br />
       
       <form onSubmit={form.onSubmit(onSubmit)}>
         {success && (
           <Alert 
             icon={<IconCheck size="1rem" />}
-            title="Siker!"
+            title="Success!"
             color="green"
             mb="md"
             withCloseButton
@@ -89,7 +89,7 @@ const UserProfileForm = ({
         {error && (
           <Alert 
             icon={<IconAlertCircle size="1rem" />}
-            title="Hiba!"
+            title="Error!"
             color="red"
             mb="md"
             withCloseButton
@@ -101,8 +101,8 @@ const UserProfileForm = ({
 
         <TextInput
           withAsterisk
-          label="Felhaszáló név"
-          placeholder="Felhasználó neved"
+          label="User Name"
+          placeholder="Your User Name"
           key={form.key('name')}
           {...form.getInputProps('name')}
           disabled={!isEditing} 
@@ -110,8 +110,8 @@ const UserProfileForm = ({
 
         <TextInput
           withAsterisk
-          label="Email"
-          placeholder="Email címed"
+          label="Email address"
+          placeholder="Your Email address"
           key={form.key('email')}
           {...form.getInputProps('email')}
           disabled={!isEditing} 
@@ -126,9 +126,9 @@ const UserProfileForm = ({
                 leftSection={<IconX size="1rem" />}
                 onClick={onCancelClick}
               >
-                Mégse
+                Cancel
               </Button>
-              <Button type="submit">Mentés</Button>
+              <Button type="submit">Save</Button>
             </Group>
           )}
         </Group>
@@ -140,7 +140,7 @@ const UserProfileForm = ({
           onClick={onEditClick}
           mb="md"
         >
-          Profil szerkesztése
+          Edit Profile
         </Button>
       )}
 
@@ -154,7 +154,7 @@ const UserProfileForm = ({
           loading={loading}
           leftSection={hasAddress ? <IconHomeCog size="1rem" /> : <IconHomePlus size="1rem" />}
         >
-          {hasAddress ? "Cím szerkesztése" : "Új cím"}
+          {hasAddress ? "Edit Address" : "New Address"}
         </Button>
         
         {hasAddress && (
@@ -162,13 +162,13 @@ const UserProfileForm = ({
      <Modal 
             opened={deleteModalOpened} 
             onClose={onDeleteModalClose} 
-            title="Cím törlés" 
+            title="Delete Address" 
             centered
           >
-            <Text>Biztos törölni szeretnéd a címed?</Text>
+            <Text>Are you sure you want to delete your address?</Text>
             <Group mt="md">
-              <Button variant="outline" onClick={onDeleteModalClose}>Mégse</Button>
-              <Button color="red" onClick={onDeleteConfirm}>Törlés</Button>
+              <Button variant="outline" onClick={onDeleteModalClose}>Cancel</Button>
+              <Button color="red" onClick={onDeleteConfirm}>Delete</Button>
             </Group>
           </Modal>
           <Button 
@@ -176,7 +176,7 @@ const UserProfileForm = ({
             onClick={onDeleteClick}
             leftSection={<IconHomeX size="1rem" />}
           >
-            Cím törlése
+            Delete Address
           </Button>
   </>
 )}

@@ -51,12 +51,12 @@ const AddressForm = ({
     mode: 'uncontrolled',
     initialValues,
     validate: {
-      country: (value) => value ? null : 'Válassz országot',
-      county: (value) => value.trim().length > 0 ? null : 'Add meg a megyét',
-      zipcode: (value) => value > 0 ? null : 'Érvényes irányítószám szükséges',
-      city: (value) => value.trim().length > 0 ? null : 'Add meg a várost',
-      street: (value) => value.trim().length > 0 ? null : 'Add meg az utcát',
-      housenumber: (value) => value > 0 ? null : 'Érvényes házszám szükséges',
+      country: (value) => value ? null : 'Choose a country',
+      county: (value) => value.trim().length > 0 ? null : 'Add a county',
+      zipcode: (value) => value > 0 ? null : 'A valid postal code is required',
+      city: (value) => value.trim().length > 0 ? null : 'Add a city',
+      street: (value) => value.trim().length > 0 ? null : 'Add a street',
+      housenumber: (value) => value > 0 ? null : 'A valid house number is required',
     },
   });
 
@@ -67,14 +67,14 @@ const AddressForm = ({
 
   return (
     <>
-      <Title order={1}>{isCreate ? "Új cím felvétele" : "Meglévő cím szerkesztése"}</Title>
+      <Title order={1}>{isCreate ? "Create new address" : "Update current address"}</Title>
       <br />
       
       <form onSubmit={form.onSubmit(onSubmit)}>
         {error && (
           <Alert 
             icon={<IconAlertCircle size="1rem" />}
-            title="Hiba!"
+            title="Error!"
             color="red"
             mb="md"
             withCloseButton
@@ -86,8 +86,8 @@ const AddressForm = ({
 
         <Select
           withAsterisk
-          label="Ország"
-          placeholder="Válassz egy országot"
+          label="Country"
+          placeholder="Choose your country"
           data={countryOptions}
           searchable
           key={form.key('country')}
@@ -96,69 +96,69 @@ const AddressForm = ({
 
         <TextInput
           withAsterisk
-          label="Megye"
-          placeholder="Megye"
+          label="County"
+          placeholder="Your County"
           key={form.key('county')}
           {...form.getInputProps('county')}
         />
 
         <NumberInput
           withAsterisk
-          label="Irányítószám"
-          placeholder="Irányítószám"
+          label="Postal Code"
+          placeholder="Your Postal Code"
           key={form.key('zipcode')}
           {...form.getInputProps('zipcode')}
         />
 
         <TextInput
           withAsterisk
-          label="Város"
-          placeholder="Város"
+          label="City"
+          placeholder="Your City"
           key={form.key('city')}
           {...form.getInputProps('city')}
         />
 
         <TextInput
           withAsterisk
-          label="Utca"
-          placeholder="Utca"
+          label="Street"
+          placeholder="Your Street"
           key={form.key('street')}
           {...form.getInputProps('street')}
         />
 
         <TextInput
-          label="Emelet"
-          placeholder="Emelet"
+          label="Floor"
+          placeholder="Your Floor"
           key={form.key('floor')}
           {...form.getInputProps('floor')}
         />
 
         <NumberInput
           withAsterisk
-          label="Házszám"
-          placeholder="Házszám"
+          label="House Number"
+          placeholder="House Number"
           key={form.key('housenumber')}
           {...form.getInputProps('housenumber')}
         />
 
         <Group justify="flex-end" mt="md">
-          <Button variant="outline" onClick={onBack}>Vissza</Button>
-          <Button type="submit">Mentés</Button>
+          <Button variant="outline" onClick={onBack}>Back</Button>
+          <Button type="submit">Save</Button>
         </Group>
       </form>
 
       <Modal
         opened={successModalOpened}
         onClose={onModalClose}
-        title="Siker!"
+        title="Success!"
         centered
         withCloseButton
       >
         <Group>
           <IconCheck color="green" />
           <Text>{isCreate 
-    ? "Az új cím sikeresen létrehozva!" 
-    : "A cím sikeresen frissítve!"}</Text>
+    ? "The new address has been created successfully!" 
+    : "The address has been updated successfully!"}</Text>
         </Group>
         <Group justify="center" mt="md">
           <Button onClick={onModalClose}>

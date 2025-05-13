@@ -28,7 +28,7 @@ const ForgotPassword = () => {
     birthDate: Date | null;
   }) => {
     if (!values.birthDate) {
-      setError('Kötelező a születési dátum.');
+      setError('Birth Date is required!');
       return;
     }
     
@@ -42,13 +42,7 @@ const ForgotPassword = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data;
-        if (errorMessage === "This user does not exists.") {
-          errorMessage = "Ez a felhasználó nem létezik.";
-        }
-        if (errorMessage === "The given birthdate is incorrect.") {
-          errorMessage = "A megadott születési dátum helytelen.";
-        }
-        setError('A jelszó megváltoztatása sikertelen. ' + errorMessage);
+        setError('Password change was unsuccessfull. ' + errorMessage);
       }
     }
   };
