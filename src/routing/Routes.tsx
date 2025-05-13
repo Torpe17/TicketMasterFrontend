@@ -1,20 +1,20 @@
-import Login from "../pages/Login.tsx";
-import ForgotPassword from "../pages/ForgotPassword.tsx";
+import Login from "../pages/User/Login.tsx";
+import ForgotPassword from "../pages/User/ForgotPassword.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
-import Films from "../pages/Films.tsx";
-import FilmDetails from '../pages/FilmDetails.tsx';
+import Films from "../pages/Film/Films.tsx";
+import FilmDetails from '../pages/Film/FilmDetails.tsx';
 
-import Tickets from "../pages/Tickets.tsx";
-import Register from "../pages/Register.tsx";
+import Tickets from "../pages/Tickets/Tickets.tsx";
+import Register from "../pages/User/Register.tsx";
 import AdminPage from "../pages/admin/AdminPage.tsx";
 import CreateUpdateFilms from "../pages/admin/CreateUpdateFilm.tsx";
 import CreateUpdateScreenings from "../pages/admin/CreateUpdateScreening.tsx";
 import RequireAdmin from "../components/auth/RequireAdmin.tsx";
-import TicketInspection from "../pages/TicketInspection.tsx";
+import TicketInspection from "../pages/Tickets/TicketInspection.tsx";
 import RequireCashier from "../components/auth/RequireCashier.tsx";
-import UserProfile from "../pages/UserProfile.tsx";
+import UserProfile from "../pages/User/UserProfile.tsx";
 import CreateAddress from "../pages/admin/CreateAddress.tsx";
-import ScreeningDetails from "../pages/ScreeningDetails.tsx";
+import ScreeningDetails from "../pages/Film/ScreeningDetails.tsx";
 export const routes = [
     {
         path: "login",

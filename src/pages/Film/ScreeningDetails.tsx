@@ -4,14 +4,14 @@ import {
     ScrollArea,
     TextInput
 } from "@mantine/core";
-import { IScreening } from "../interfaces/IScreening";
-import { IRoom } from "../interfaces/IRoom";
+import { IScreening } from "../../interfaces/IScreening";
+import { IRoom } from "../../interfaces/IRoom";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../api/api";
+import api from "../../api/api";
 import { IconAlertCircle, IconTicket, IconArrowLeft, IconAlertTriangle } from "@tabler/icons-react";
-import { ITicket } from "../interfaces/ITicket";
-import useAuth from "../hooks/useAuth";
+import { ITicket } from "../../interfaces/ITicket";
+import useAuth from "../../hooks/useAuth";
 import { useForm } from "@mantine/form";
 
 const ScreeningDetails = () => {

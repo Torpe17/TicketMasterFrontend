@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { countries } from 'countries-list';
-import api from "../../api/api";
-import AddressForm from "../../components/User/AddressForm";
-import { SelectItem } from "../../interfaces/Types";
+import api from "../api/api";
+import AddressForm from "../components/User/AddressForm";
+import { SelectItem } from "../interfaces/Types";
 
 //countries.registerLocale(hu);
 
