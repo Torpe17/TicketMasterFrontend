@@ -1,15 +1,18 @@
 import {
     Text, Title, Grid, Card, Group, Button, Checkbox, Paper,
     Badge, Divider, LoadingOverlay, Alert, Modal,
-    ScrollArea
+    ScrollArea,
+    TextInput
 } from "@mantine/core";
 import { IScreening } from "../interfaces/IScreening";
 import { IRoom } from "../interfaces/IRoom";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/api";
-import { IconAlertCircle, IconTicket, IconArrowLeft } from "@tabler/icons-react";
+import { IconAlertCircle, IconTicket, IconArrowLeft, IconAlertTriangle } from "@tabler/icons-react";
 import { ITicket } from "../interfaces/ITicket";
+import useAuth from "../hooks/useAuth";
+import { useForm } from "@mantine/form";
 
 const ScreeningDetails = () => {
     const { id } = useParams();
@@ -20,7 +23,9 @@ const ScreeningDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [purchaseModalOpen, setPurchaseModalOpen] = useState(false);
-    // const [purchaseDetails, setPurchaseDetails] = useState<ICreatePurchaseUser | null>(null);
+    const [additionalDataModalOpen, setAdditionalModalOpen] = useState(false);
+    const { isLoggedIn, roles } = useAuth();
+    const [alertVisible, setAlertVisible] = useState(false);
 
 
     const navigate = useNavigate();
@@ -82,6 +87,24 @@ const ScreeningDetails = () => {
         return tickets?.some(ticket => ticket.seatRow === row && ticket.seatColumn === column) || false
     }
 
+    const successfulBuy = () =>{
+        setError(null);
+        setAdditionalModalOpen(false);
+        setPurchaseModalOpen(true);
+    }
+    const form = useForm({
+            mode: "uncontrolled",
+            initialValues: {
+                email: '',
+                phone: ''
+            },
+    
+            validate: {
+                email: (value) => !isLoggedIn &&  value.length <= 0 ? "Kötelező kitölteni" : null,
+                phone: (value) => !isLoggedIn && value.length <= 0 ? "Kötelező kitölteni" : null
+            },
+        });
+
     // Purchase logic
     const handlePurchase = async () => {
         try {
@@ -93,10 +116,26 @@ const ScreeningDetails = () => {
             };
 
             console.log(purchaseData);
+
+            if (!isLoggedIn) {
+                console.log('Guest todo');
+                setAdditionalModalOpen(true);
+            }
+            else{
+                if(roles == null){
+                    throw new Error("user logged in, but role is null");
+                }
+                if (roles.includes('Cashier')) {
+                    console.log('Cashier todo');
+                    setAdditionalModalOpen(true);
+                }
+                else if (roles.includes('Customer')) {
+                    console.log('Customer buying');
+                    await api.Purchases.createPurchaseUser(purchaseData);
+                    successfulBuy();
+                }
+            }
             
-            await api.Purchases.createPurchase(purchaseData);
-            setError(null);
-            setPurchaseModalOpen(true);
 
         } catch (err) {
             setError("Purchase failed. Please try again later.");
@@ -153,7 +192,7 @@ const ScreeningDetails = () => {
                                             <Checkbox
                                                 key={`${rowIndex}-${colIndex}`}
                                                 checked={isSelected}
-                                                onChange={() => toggleSeat(rowIndex + 1 , colIndex + 1)}
+                                                onChange={() => toggleSeat(rowIndex + 1, colIndex + 1)}
                                                 labelPosition="left"
                                                 label={`${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`}
                                                 disabled={isTaken}
@@ -274,14 +313,19 @@ const ScreeningDetails = () => {
             {/* Purchase confirmation modal */}
             <Modal
                 opened={purchaseModalOpen}
-                onClose={() => setPurchaseModalOpen(false)}
+                onClose={() => {
+                    setPurchaseModalOpen(false)
+                    navigate(-1)
+                }}
                 title="Purchase Successful!"
             >
-                {error && <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
-                    {error}
-                </Alert>}{
-                    !error &&
-                    (<div><Text mb="md">Thank you for your purchase!</Text>
+                {error &&
+                    <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
+                        {error}
+                    </Alert>}
+                {!error &&
+                    (<div>
+                        <Text mb="md">Thank you for your purchase!</Text>
                         <Text mb="md">Your tickets have been reserved.</Text>
                         <Button
                             fullWidth
@@ -301,6 +345,74 @@ const ScreeningDetails = () => {
                         </Button>
                     </div>)
                 }
+
+            </Modal>
+
+            <Modal
+                opened={additionalDataModalOpen}
+                onClose={() => setAdditionalModalOpen(false)}
+                title="Please add additional data!"
+            >
+                <form
+                onSubmit={form.onSubmit(async (values) => {
+                    try {
+                        if(!isLoggedIn){
+                            const data: ICreatePurchaseGuest = {
+                                email: values.email,
+                                phoneNumber: values.phone,
+                                tickets: selectedSeats
+                            };
+                            await api.Purchases.createPurchaseGuest(data);
+                            successfulBuy();
+                        }
+                        else if(roles == null) throw new Error("User loged in but has no roles")
+                        else if (roles.includes("Cashier")){
+                            const data: ICreatePurchaseCashier = {
+                                email: values.email,
+                                tickets: selectedSeats
+                            };
+                            await api.Purchases.createPurchaseCashier(data);
+                            successfulBuy();
+                        }
+                    } catch (error) {
+                        console.error("Failed to save film:", error);
+                        setAlertVisible(true);
+                    }
+                })}
+            >
+                <TextInput
+                    withAsterisk
+                    label="Email"
+                    placeholder="email@example.com"
+                    key={form.key("email")}
+                    {...form.getInputProps("email")}
+                />
+                {
+                    !isLoggedIn &&
+                    <TextInput
+                    withAsterisk
+                    label="Phone"
+                    placeholder="+3630132456"
+                    key={form.key("phone")}
+                    {...form.getInputProps("phone")}
+                    />
+                }
+
+                <Group justify="flex-end" mt="md">
+                    <Button type="submit">Mentés</Button>
+                </Group>
+            </form>
+            {alertVisible && (<Alert
+                variant="light"
+                color="red"
+                title="Hiba"
+                mt={16}
+                icon={<IconAlertTriangle />}
+                withCloseButton
+                onClose={() => setAlertVisible(false)}
+                closeButtonLabel="Dismiss">
+                Hiba történt a mentés során.
+            </Alert>)}
 
             </Modal>
 

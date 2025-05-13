@@ -52,6 +52,11 @@ export const routes = [
         isPrivate: true
     },
     {
+        path: "films",
+        component: <Films/>,
+        isPrivate: false
+    },
+    {
         path: "films/:id",
         component: <FilmDetails />,
         isPrivate: true
@@ -59,15 +64,11 @@ export const routes = [
     {
         path: "screening/:id/purchase",
         component: <ScreeningDetails />,
-        isPrivate: true
+        isPrivate: false
     },
     {
-        path: "screening/:id/purchase-for-user",
-        component: (
-            <RequireCashier>
-              <ScreeningDetails />
-            </RequireCashier>
-          ),
+        path: "screening/:id/purchase",
+        component: <ScreeningDetails />,
         isPrivate: true
     },
     {
