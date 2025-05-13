@@ -1,10 +1,10 @@
 import { Alert, Button, Card, Fieldset, Group, NativeSelect, NumberInput, rem, Stack, Text, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
-import api from "../api/api.ts";
+import api from "../../api/api.ts";
 import { useNavigate, useParams } from "react-router-dom";
-import { IRoom } from "../interfaces/IRoom.ts";
-import { IFilm } from "../interfaces/IFilm.ts";
+import { IRoom } from "../../interfaces/IRoom.ts";
+import { IFilm } from "../../interfaces/IFilm.ts";
 import { IconAlertTriangle, IconCategory, IconClock, IconMovie, IconShield, IconUser } from "@tabler/icons-react";
 import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Button, Combobox, Group, Table, TextInput, useCombobox } from '@mantine/core';
-import { IFilm } from '../interfaces/IFilm';
-import { IScreening } from '../interfaces/IScreening';
+import { IFilm } from '../../interfaces/IFilm';
+import { IScreening } from '../../interfaces/IScreening';
 import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/api';
+import api from '../../api/api';
 
 const AdminPage = () => {
     const navigate = useNavigate();
