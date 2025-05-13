@@ -43,7 +43,7 @@ const PurchaseItem = ({ purchase, onDelete }: PurchaseItemProps) => {
                             Screening: {new Date(purchase.screeningTime).toLocaleString()}
                         </Text>
                     </div>
-                    <Text fw={700}>{purchase.ticketCount} jegyek</Text>
+                    <Text fw={700}>{purchase.ticketCount} tickets</Text>
                 </Group>
             </Accordion.Control>
 
