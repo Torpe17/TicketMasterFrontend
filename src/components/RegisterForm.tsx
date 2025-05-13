@@ -49,9 +49,9 @@ const RegisterForm = ({
       birthDate: null,
     },
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Érvénytelen e-mail cím.'),
-      password: (val) => (val.length <= 6 ? 'A jelszónak 6 karakter hosszúnak kell lennie.' : null),
-      birthDate: (val) => (val ? null : 'Kötelező a születési dátum.')
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email address'),
+      password: (val) => (val.length <= 6 ? 'Password needs to be at least 6 characters' : null),
+      birthDate: (val) => (val ? null : 'A birth date is required')
     },
   });
 
@@ -63,7 +63,7 @@ const RegisterForm = ({
             {error && (
               <Alert 
                 icon={<IconAlertCircle size="1rem" />}
-                title="Hiba!"
+                title="Error!"
                 color="red"
                 mb="md"
                 withCloseButton
@@ -75,7 +75,7 @@ const RegisterForm = ({
 
             <TextInput
               required
-              label="Felhasználó név"
+              label="User Name"
               placeholder="jane_doe"
               radius="md"
               {...form.getInputProps('name')}
@@ -83,7 +83,7 @@ const RegisterForm = ({
 
             <TextInput
               required
-              label="E-mail cím"
+              label="E-mail address"
               placeholder="hello@mantine.dev"
               radius="md"
               {...form.getInputProps('email')}
@@ -91,16 +91,16 @@ const RegisterForm = ({
 
             <PasswordInput
               required
-              label="Jelszó"
-              placeholder="Jelszavad"
+              label="Password"
+              placeholder="Your password"
               radius="md"
               {...form.getInputProps('password')}
             />
 
             <DateInput
               required
-              label="Születésnap"
-              placeholder="Születésnapod"
+              label="Birth Date"
+              placeholder="Your Birth Date"
               valueFormat="YYYY-MM-DD"
               locale="hu"
               radius="md"
@@ -111,16 +111,16 @@ const RegisterForm = ({
 
           <Group justify="center" mt="xl">
             <Button type="submit" radius="xl" fullWidth>
-              Regisztráció
+              Registration
             </Button>
           </Group>
 
           <Divider my="lg" />
 
           <Group justify="center" gap="xs">
-            <Text>Van már fiókod?</Text>
+            <Text>You already have an account?</Text>
             <Anchor component="button" type="button" onClick={() => navigate('/login')}>
-              Bejelentkezés
+              You can login here
             </Anchor>
           </Group>
         </form>
@@ -128,14 +128,14 @@ const RegisterForm = ({
         <Modal
           opened={successModalOpened}
           onClose={onModalClose}
-          title="Siker!"
+          title="Success!"
           centered
           withCloseButton
         >
           <Stack>
             <Group>
               <IconCheck color="green" />
-              <Text>A regisztráció sikeresen megtörtént!</Text>
+              <Text>The registration was successfull!</Text>
             </Group>
             <Group justify="center" mt="md">
               <Button onClick={onModalClose}>

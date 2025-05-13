@@ -44,9 +44,9 @@ const ForgotPasswordForm = ({
     },
 
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Érvénytelen e-mail cím'),
-      password: (val) => (val.length <= 6 ? 'A jelszónak 6 karakter hosszúnak kell lennie.' : null),
-      birthDate: (val) => (val ? null : 'Kötelező a születési dátum.')
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email address'),
+      password: (val) => (val.length <= 6 ? 'Password needs to be at least 6 charachters long' : null),
+      birthDate: (val) => (val ? null : 'Birth Date is required.')
     },
   });
 
@@ -58,7 +58,7 @@ const ForgotPasswordForm = ({
             {error && (
               <Alert 
                 icon={<IconAlertCircle size="1rem" />}
-                title="Hiba!"
+                title="Error!"
                 color="red"
                 mb="md"
                 withCloseButton
@@ -70,7 +70,7 @@ const ForgotPasswordForm = ({
 
             <TextInput
               required
-              label="E-mail cím"
+              label="E-mail address"
               placeholder="hello@mantine.dev"
               radius="md"
               {...form.getInputProps('email')}
@@ -78,8 +78,8 @@ const ForgotPasswordForm = ({
 
             <DateInput
               required
-              label="Születésnap"
-              placeholder="Születésnapod"
+              label="Birth Date"
+              placeholder="Birth Date"
               valueFormat="YYYY-MM-DD"
               locale="hu"
               radius="md"
@@ -89,8 +89,8 @@ const ForgotPasswordForm = ({
 
             <PasswordInput
               required
-              label="Új Jelszó"
-              placeholder="Jelszavad"
+              label="New Password"
+              placeholder="Your new password"
               radius="md"
               {...form.getInputProps('password')}
             />
@@ -98,16 +98,16 @@ const ForgotPasswordForm = ({
 
           <Group justify="center" mt="xl">
             <Button type="submit" radius="xl" fullWidth>
-              Jelszó megváltoztatása
+              Change Password
             </Button>
           </Group>
 
           <Divider my="lg" />
 
           <Group justify="center" gap="xs">
-            <Text>Tudod mi a jelszavad?</Text>
+            <Text>Do you know your password?</Text>
             <Anchor component="button" type="button" onClick={onModalClose}>
-              Bejelentkezéshez
+              Login in here
             </Anchor>
           </Group>
         </form>
@@ -115,13 +115,13 @@ const ForgotPasswordForm = ({
         <Modal
           opened={successModalOpened}
           onClose={onModalClose}
-          title="Siker!"
+          title="Success!"
           centered
           withCloseButton
         >
           <Group>
             <IconCheck color="green" />
-            <Text>A jelszó megváltoztatása sikeresen megtörtént!</Text>
+            <Text>Password has been successfully changed</Text>
           </Group>
           <Group justify="center" mt="md">
             <Button onClick={onModalClose}>

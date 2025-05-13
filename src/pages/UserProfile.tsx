@@ -56,16 +56,7 @@ const UserProfile = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data;
-        if (errorMessage === "User not found.") {
-          errorMessage = "Ez a felhasználó nem létezik.";
-        }
-        if (errorMessage === "There is already another User with this email address") {
-          errorMessage = "Már van egy felhasználó ezzel az email-el.";
-        }
-        if (errorMessage === "There is already another User with this username") {
-          errorMessage = "Már van egy felhasználó ezzel a felhasználó névvel.";
-        }
-        setError('Profil frissítése sikertelen. ' + errorMessage);
+        setError('Updating profile was unsuccesfull. ' + errorMessage);
       }
     }
   };
@@ -73,17 +64,14 @@ const UserProfile = () => {
   const handleDeleteAddress = async () => {
     try {
       await api.User.deleteAddress();
-      setSuccess('Cím sikeresen törölve!');
+      setSuccess('Address has been deleted!');
       setHasAddress(false);
       closeDeleteModal();
       setTimeout(() => setSuccess(null), 5000);
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data;
-        if (errorMessage === "This user doesn't have an address") {
-          errorMessage = "Nincsen cím felvéve.";
-        }
-        setError('Cím törlése sikertelen. ' + errorMessage);
+        setError('Deleting address was unsuccessfull. ' + errorMessage);
       }
       closeDeleteModal();
     }
@@ -104,7 +92,6 @@ const UserProfile = () => {
       onEditClick={() => setIsEditing(true)}
       onCancelClick={() => {
         setIsEditing(false);
-        // Reset form would be handled by the form component itself
       }}
       onSubmit={handleSubmit}
       onClearError={() => setError(null)}

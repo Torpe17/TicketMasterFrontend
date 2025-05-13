@@ -104,15 +104,9 @@ const CreateAddress = ({ isCreate }: ICreateAddress) => {
       }
       setSuccessModalOpened(true);
     } catch (error) {
-      let errorMessage = "Ismeretlen hiba történt";
+      let errorMessage = "An unknown error has occured.";
       if (error instanceof AxiosError) {
         errorMessage = error.response?.data;
-        if (errorMessage === "Only one address is allowed for a user") {
-          errorMessage = "Csak egy cím lehet egy felhasználóhoz.";
-        }
-        if (errorMessage === "User doesn't have address yet.") {
-          errorMessage = "Még nincsen elmentve címed.";
-        }
       }
       setError(`Az új cím felvétele sikertelen. ${errorMessage}`);
     }

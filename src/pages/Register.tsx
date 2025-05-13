@@ -16,18 +16,15 @@ const Register = () => {
   birthDate: Date | null;
 }) => {
   try {
-    console.log("Submitting registration with values:", values); // Debug log
     const response = await api.User.register(
       values.name,
       values.email,
       values.password,
-      [3], // Default role IDs
+      [3],
       formatDateOnly(values.birthDate)
     );
-    console.log("Registration response:", response); // Debug log
     setSuccessModalOpened(true);
   } catch (error) {
-    console.error("Registration error:", error); // Debug log
     handleRegistrationError(error);
   }
 };
@@ -46,20 +43,13 @@ const Register = () => {
       };
 
   const handleRegistrationError = (error: unknown) => {
-  console.error("Full error object:", error); // Debug log
   if (error instanceof AxiosError) {
     let errorMessage = error.response?.data?.message || error.response?.data || error.message;
-    if (errorMessage === "There is already a User with this Email") {
-      errorMessage = "Már van egy felhasználó ezzel az email címmel.";
-    }
-    if (errorMessage === "There is already a User with this Username") {
-      errorMessage = "Már van egy felhasználó ezzel a felhasználó névvel.";
-    }
-    setError('A regisztráció sikertelen. Kérjük, próbáld újra. ' + errorMessage);
+    setError('Registration unsuccessfull. Please try again. ' + errorMessage);
   } else if (error instanceof Error) {
-    setError('A regisztráció sikertelen. Kérjük, próbáld újra. ' + error.message);
+    setError('Registration unsuccessfull. Please try again. ' + error.message);
   } else {
-    setError('A regisztráció sikertelen. Ismeretlen hiba történt.');
+    setError('Registration unsuccessfull. An unknown error has occured. Please try again.');
   }
 };
 
