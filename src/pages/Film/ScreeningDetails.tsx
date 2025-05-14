@@ -331,7 +331,12 @@ const ScreeningDetails = () => {
                             fullWidth
                             onClick={() => {
                                 setPurchaseModalOpen(false);
-                                setTimeout(() => {
+                                if(!isLoggedIn || roles == null || roles.includes('Cashier')){
+                                    setTimeout(() => {
+                                    navigate(-1)
+                                }, 200);    
+                                }{
+                                    setTimeout(() => {
                                     navigate('/app/tickets', {
                                         replace: true,
                                         state: {
@@ -339,9 +344,11 @@ const ScreeningDetails = () => {
                                         }
                                     });
                                 }, 200);
+                                }
+                                
                             }}
                         >
-                            View My Tickets
+                        {(!isLoggedIn || roles == null || roles.includes('Cashier'))?"Done":"View My Tickets"}
                         </Button>
                     </div>)
                 }
