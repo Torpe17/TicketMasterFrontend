@@ -101,7 +101,7 @@ const TicketInspection = () => {
     return <Card>
 
         <Fieldset
-            legend={<Title order={4}>Jegy ellenőrzés</Title>}
+            legend={<Title order={4}>Ticket inspection</Title>}
             radius="md"
             style={{
                 border: '1px solid var(--mantine-color-gray-3)',
