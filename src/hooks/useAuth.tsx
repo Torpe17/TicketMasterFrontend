@@ -22,7 +22,7 @@ const useAuth = () => {
             // Extract error message from response
             const errorMessage = error.response?.data?.message || 
                                error.response?.data?.title ||
-                               'Hibás email cím vagy jelszó';
+                               'Invalid email address or password.';
             return { success: false, error: errorMessage };
         }
     }

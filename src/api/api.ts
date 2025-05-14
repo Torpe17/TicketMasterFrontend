@@ -14,8 +14,25 @@ const User ={
     createAddress: (country: string, county: string, zipcode: number, city: string, street: string, housenumber: number, floor: string | null) => axiosInstance.post('/api/Users/address', {country, county, zipcode, city, street, housenumber, floor}),
     deleteAddress: () => axiosInstance.delete('/api/Users/address'),
     getAddress: () => axiosInstance.get<IAddress>('/api/Users/address'),
-    updateAddress: (setFloor: boolean, country: string | null, county: string | null, zipcode: number | null, city: string | null, street: string | null, housenumber: number | null, floor: string | null) => axiosInstance.put('/api/Users/address', {country, county, zipcode, city, street,  floor, setFloor,housenumber})
-}
+    updateAddress: (
+  setFloor: boolean,
+  country: string | null,
+  county: string | null,
+  zipcode: number | null,
+  city: string | null,
+  street: string | null,
+  housenumber: number | null,
+  floor: string | null | undefined  // Add undefined as possible type
+) => axiosInstance.put('/api/Users/address', {
+  country,
+  county,
+  zipcode,
+  city,
+  street,
+  housenumber,
+  floor: floor === undefined ? undefined : (floor === null ? '' : floor), // Convert null to empty string
+  setFloor
+})}
 
 const Films = {
     getFilms: () => axiosInstance.get<IFilm[]>(`/api/film`),

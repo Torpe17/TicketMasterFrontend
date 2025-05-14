@@ -35,7 +35,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, error, onClearError }) =
           {error && (
             <Alert 
               icon={<IconAlertCircle size="1rem" />}
-              title="Hiba!"
+              title="Error!"
               color="red"
               mb="md"
               withCloseButton

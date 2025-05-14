@@ -49,11 +49,6 @@ export function NavbarMinimal({toggle}: any) {
 
     const menuItems = [
         {
-            icon: IconHome,
-            label: "Dashboard",
-            url: "dashboard",
-        },
-        {
             icon: IconMovie,
             label: "Movies",
             url: "films",

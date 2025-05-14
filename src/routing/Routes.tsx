@@ -1,6 +1,5 @@
 import Login from "../pages/User/Login.tsx";
 import ForgotPassword from "../pages/User/ForgotPassword.tsx";
-import Dashboard from "../pages/Dashboard.tsx";
 import Films from "../pages/Film/Films.tsx";
 import FilmDetails from '../pages/Film/FilmDetails.tsx';
 
@@ -30,11 +29,6 @@ export const routes = [
         path: "forgot",
         component: <ForgotPassword/>,
         isPrivate: false
-    },
-    {
-        path: "dashboard",
-        component: <Dashboard/>,
-        isPrivate: true
     },
     {
         path: "films",
