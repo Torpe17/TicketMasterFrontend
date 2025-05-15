@@ -22,7 +22,7 @@ const User ={
   city: string | null,
   street: string | null,
   housenumber: number | null,
-  floor: string | null | undefined  // Add undefined as possible type
+  floor: string | null | undefined
 ) => axiosInstance.put('/api/Users/address', {
   country,
   county,
@@ -30,7 +30,7 @@ const User ={
   city,
   street,
   housenumber,
-  floor: floor === undefined ? undefined : (floor === null ? '' : floor), // Convert null to empty string
+  floor: floor === undefined ? undefined : (floor === null ? '' : floor),
   setFloor
 })}
 
